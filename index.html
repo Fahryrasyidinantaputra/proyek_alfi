@@ -4,9 +4,49 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Keuangan PT KYLIAN ART PRODUCTION</title>
-  <script src="/_sdk/element_sdk.js"></script><!-- Firebase v8 CDN -->
-  <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-firestore.js"></script>
+  <script src="/_sdk/element_sdk.js"></script><!-- Firebase v9+ Modular SDK -->
+  <script type="module">
+        // Import the functions you need from the SDKs you need
+        import { initializeApp } from 'https://www.gstatic.com/firebasejs/9.23.0/firebase-app.js';
+        import { getDatabase, ref, push, set, get, update, query, orderByChild, equalTo, serverTimestamp } from 'https://www.gstatic.com/firebasejs/9.23.0/firebase-database.js';
+        import { getAnalytics } from 'https://www.gstatic.com/firebasejs/9.23.0/firebase-analytics.js';
+
+        // Your web app's Firebase configuration
+        // For Firebase JS SDK v7.20.0 and later, measurementId is optional
+        const firebaseConfig = {
+            apiKey: "AIzaSyDIkJEIsciSM0iL4zPajwvLIlFmQCPS99o",
+            authDomain: "projekalfi-33139.firebaseapp.com",
+            databaseURL: "https://projekalfi-33139-default-rtdb.asia-southeast1.firebasedatabase.app",
+            projectId: "projekalfi-33139",
+            storageBucket: "projekalfi-33139.firebasestorage.app",
+            messagingSenderId: "860849567689",
+            appId: "1:860849567689:web:4ad622009f11f6cb189a18",
+            measurementId: "G-127665HZSY"
+        };
+
+        // Initialize Firebase
+        const app = initializeApp(firebaseConfig);
+        const db = getDatabase(app);
+        const analytics = getAnalytics(app);
+
+        // Make Firebase available globally
+        window.firebaseApp = app;
+        window.db = db;
+        window.analytics = analytics;
+        window.firebaseModules = {
+            ref,
+            push,
+            set,
+            get,
+            update,
+            query,
+            orderByChild,
+            equalTo,
+            serverTimestamp
+        };
+
+        console.log('✅ Firebase Realtime Database berhasil terhubung dengan konfigurasi Anda!');
+    </script>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&amp;display=swap" rel="stylesheet">
   <style>
         body {
@@ -14,7 +54,7 @@
             margin: 0;
             padding: 0;
             font-family: 'Inter', sans-serif;
-            background: linear-gradient(135deg, #ec4899 0%, #3b82f6 100%);
+            background: linear-gradient(135deg, #ff6b9d 0%, #4facfe 100%);
             min-height: 100%;
             color: #1a202c;
         }
@@ -34,7 +74,7 @@
             align-items: center;
             min-height: 100%;
             padding: 20px;
-            background: linear-gradient(135deg, #ec4899 0%, #3b82f6 100%);
+            background: linear-gradient(135deg, #ff6b9d 0%, #4facfe 100%);
         }
 
         .login-card {
@@ -52,7 +92,7 @@
         .logo {
             font-size: 32px;
             font-weight: 800;
-            background: linear-gradient(135deg, #ec4899 0%, #3b82f6 100%);
+            background: linear-gradient(135deg, #ff6b9d 0%, #4facfe 100%);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             margin-bottom: 12px;
@@ -91,15 +131,15 @@
 
         .form-input:focus {
             outline: none;
-            border-color: #ec4899;
-            box-shadow: 0 0 0 4px rgba(236, 72, 153, 0.1);
+            border-color: #ff6b9d;
+            box-shadow: 0 0 0 4px rgba(255, 107, 157, 0.15);
             background: white;
         }
 
         .login-btn {
             width: 100%;
             padding: 18px;
-            background: linear-gradient(135deg, #ec4899 0%, #3b82f6 100%);
+            background: linear-gradient(135deg, #ff6b9d 0%, #4facfe 100%);
             color: white;
             border: none;
             border-radius: 16px;
@@ -111,11 +151,12 @@
             margin-bottom: 20px;
             text-transform: uppercase;
             letter-spacing: 0.5px;
+            box-shadow: 0 8px 25px rgba(255, 107, 157, 0.3);
         }
 
         .login-btn:hover {
             transform: translateY(-3px);
-            box-shadow: 0 15px 35px rgba(236, 72, 153, 0.4);
+            box-shadow: 0 15px 40px rgba(255, 107, 157, 0.5);
         }
 
         .login-btn:disabled {
@@ -173,10 +214,10 @@
             top: 0;
             width: 280px;
             height: 100%;
-            background: linear-gradient(180deg, #1e1b4b 0%, #312e81 100%);
+            background: linear-gradient(180deg, #2d1b69 0%, #1e3a8a 100%);
             padding: 30px 0;
             z-index: 1000;
-            box-shadow: 4px 0 20px rgba(0, 0, 0, 0.1);
+            box-shadow: 4px 0 25px rgba(0, 0, 0, 0.15);
         }
 
         .sidebar-header {
@@ -226,9 +267,10 @@
         }
 
         .nav-link.active {
-            background: rgba(236, 72, 153, 0.2);
+            background: rgba(255, 107, 157, 0.25);
             color: white;
-            border-right-color: #ec4899;
+            border-right-color: #ff6b9d;
+            box-shadow: inset 0 0 20px rgba(255, 107, 157, 0.1);
         }
 
         .nav-icon {
@@ -267,12 +309,13 @@
         }
 
         .user-info-badge {
-            background: linear-gradient(135deg, #ec4899 0%, #3b82f6 100%);
+            background: linear-gradient(135deg, #ff6b9d 0%, #4facfe 100%);
             color: white;
             padding: 12px 20px;
             border-radius: 12px;
             font-size: 14px;
             font-weight: 600;
+            box-shadow: 0 4px 15px rgba(255, 107, 157, 0.3);
         }
 
         .logout-btn {
@@ -319,18 +362,18 @@
             left: 0;
             right: 0;
             height: 4px;
-            background: linear-gradient(135deg, #ec4899 0%, #3b82f6 100%);
+            background: linear-gradient(135deg, #ff6b9d 0%, #4facfe 100%);
         }
 
         .category-card:hover {
             transform: translateY(-8px);
-            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
-            border-color: #ec4899;
+            box-shadow: 0 20px 40px rgba(255, 107, 157, 0.2);
+            border-color: #ff6b9d;
         }
 
         .category-card.active {
-            border-color: #ec4899;
-            background: linear-gradient(135deg, rgba(236, 72, 153, 0.05) 0%, rgba(59, 130, 246, 0.05) 100%);
+            border-color: #ff6b9d;
+            background: linear-gradient(135deg, rgba(255, 107, 157, 0.08) 0%, rgba(79, 172, 254, 0.08) 100%);
         }
 
         .category-icon {
@@ -359,7 +402,7 @@
         .stat-value {
             font-size: 20px;
             font-weight: 700;
-            color: #ec4899;
+            color: #ff6b9d;
             display: block;
         }
 
@@ -410,7 +453,7 @@
         }
 
         .stat-card.profit::before {
-            background: linear-gradient(135deg, #ec4899 0%, #3b82f6 100%);
+            background: linear-gradient(135deg, #ff6b9d 0%, #4facfe 100%);
         }
 
         .stat-card.total::before {
@@ -434,7 +477,7 @@
             font-size: 24px;
             padding: 12px;
             border-radius: 12px;
-            background: rgba(236, 72, 153, 0.1);
+            background: linear-gradient(135deg, rgba(255, 107, 157, 0.15) 0%, rgba(79, 172, 254, 0.15) 100%);
         }
 
         .stat-amount {
@@ -491,7 +534,7 @@
         }
 
         .add-btn {
-            background: linear-gradient(135deg, #ec4899 0%, #3b82f6 100%);
+            background: linear-gradient(135deg, #ff6b9d 0%, #4facfe 100%);
             color: white;
             border: none;
             padding: 12px 24px;
@@ -503,11 +546,12 @@
             display: flex;
             align-items: center;
             gap: 8px;
+            box-shadow: 0 4px 15px rgba(255, 107, 157, 0.3);
         }
 
         .add-btn:hover {
             transform: translateY(-2px);
-            box-shadow: 0 8px 25px rgba(236, 72, 153, 0.3);
+            box-shadow: 0 8px 30px rgba(255, 107, 157, 0.4);
         }
 
         /* Form Styles */
@@ -535,8 +579,8 @@
 
         .select-input:focus {
             outline: none;
-            border-color: #ec4899;
-            box-shadow: 0 0 0 4px rgba(236, 72, 153, 0.1);
+            border-color: #ff6b9d;
+            box-shadow: 0 0 0 4px rgba(255, 107, 157, 0.15);
         }
 
         .save-btn {
@@ -592,7 +636,7 @@
         }
 
         .data-table th {
-            background: linear-gradient(135deg, #ec4899 0%, #3b82f6 100%);
+            background: linear-gradient(135deg, #ff6b9d 0%, #4facfe 100%);
             color: white;
             padding: 20px 16px;
             text-align: left;
@@ -600,6 +644,7 @@
             font-size: 14px;
             text-transform: uppercase;
             letter-spacing: 0.5px;
+            box-shadow: 0 2px 10px rgba(255, 107, 157, 0.2);
         }
 
         .data-table td {
@@ -651,8 +696,6 @@
             transform: translateY(-1px);
             box-shadow: 0 4px 15px rgba(16, 185, 129, 0.3);
         }
-
-
 
         /* Modal Styles */
         .modal {
@@ -733,7 +776,7 @@
         }
 
         .export-btn {
-            background: linear-gradient(135deg, #ec4899 0%, #3b82f6 100%);
+            background: linear-gradient(135deg, #ff6b9d 0%, #4facfe 100%);
             color: white;
             border: none;
             padding: 12px 20px;
@@ -747,11 +790,12 @@
             gap: 8px;
             min-width: 120px;
             justify-content: center;
+            box-shadow: 0 4px 15px rgba(255, 107, 157, 0.3);
         }
 
         .export-btn:hover {
             transform: translateY(-2px);
-            box-shadow: 0 8px 25px rgba(236, 72, 153, 0.3);
+            box-shadow: 0 8px 30px rgba(255, 107, 157, 0.4);
         }
 
         .pdf-btn {
@@ -1520,34 +1564,361 @@
    </div>
   </div>
   <script>
-        // 🔥 CONFIG FIREBASE KAMU - SUDAH TERHUBUNG!
-        const firebaseConfig = {
-            apiKey: "AIzaSyDIkJEIsciSM0iL4zPajwvLIlFmQCPS99o",
-            authDomain: "projekalfi-33139.firebaseapp.com",
-            databaseURL: "https://projekalfi-33139-default-rtdb.asia-southeast1.firebasedatabase.app",
-            projectId: "projekalfi-33139",
-            storageBucket: "projekalfi-33139.firebasestorage.app",
-            messagingSenderId: "860849567689",
-            appId: "1:860849567689:web:4ad622009f11f6cb189a18",
-            measurementId: "G-127665HZSY"
-        };
-        
-        // ✅ FIREBASE SUDAH TERKONFIGURASI!
-        // Data akan tersimpan permanen di Google Cloud
-        // Pastikan Firestore Database sudah diaktifkan di console
+        // 🔥 FIREBASE SERVICE - MODULAR ARCHITECTURE
+        class FirebaseService {
+            constructor() {
+                this.db = null;
+                this.modules = null;
+                this.analytics = null;
+                this.initialized = false;
+                this.initPromise = this.waitForFirebase();
+            }
 
-        // Initialize Firebase
-        let db;
-        let firebaseInitialized = false;
+            async waitForFirebase() {
+                // Wait for Firebase to be loaded from the module script
+                while (!window.db || !window.firebaseModules || !window.analytics) {
+                    await new Promise(resolve => setTimeout(resolve, 100));
+                }
+                
+                this.db = window.db;
+                this.modules = window.firebaseModules;
+                this.analytics = window.analytics;
+                this.initialized = true;
+                console.log('✅ Firebase Realtime Database Service berhasil diinisialisasi!');
+                return true;
+            }
 
-        try {
-            firebase.initializeApp(firebaseConfig);
-            db = firebase.firestore();
-            firebaseInitialized = true;
-            console.log('✅ Firebase berhasil terhubung!');
-        } catch (error) {
-            console.error('❌ Firebase gagal terhubung:', error);
-            firebaseInitialized = false;
+            async ensureInitialized() {
+                if (!this.initialized) {
+                    await this.initPromise;
+                }
+                return this.initialized;
+            }
+
+            // 📝 CREATE - Tambah transaksi baru
+            async createTransaction(transactionData) {
+                try {
+                    await this.ensureInitialized();
+                    const transactionsRef = this.modules.ref(this.db, 'transactions');
+                    const newTransactionRef = this.modules.push(transactionsRef);
+                    
+                    await this.modules.set(newTransactionRef, {
+                        ...transactionData,
+                        createdAt: this.modules.serverTimestamp()
+                    });
+                    
+                    return { success: true, id: newTransactionRef.key };
+                } catch (error) {
+                    console.error('❌ Error creating transaction:', error);
+                    return { success: false, error: error.message };
+                }
+            }
+
+            // 📖 READ - Ambil semua transaksi
+            async getTransactions(userId = null, userRole = 'admin') {
+                try {
+                    await this.ensureInitialized();
+                    
+                    const transactionsRef = this.modules.ref(this.db, 'transactions');
+                    const snapshot = await this.modules.get(transactionsRef);
+                    
+                    if (!snapshot.exists()) {
+                        return { success: true, data: [] };
+                    }
+                    
+                    const transactionsData = snapshot.val();
+                    const transactions = [];
+                    
+                    // Convert object to array and add keys
+                    Object.keys(transactionsData).forEach(key => {
+                        const transaction = {
+                            docId: key,
+                            ...transactionsData[key]
+                        };
+                        
+                        // Filter berdasarkan user jika bukan admin
+                        if (userRole === 'admin' || transaction.createdBy === userId) {
+                            transactions.push(transaction);
+                        }
+                    });
+                    
+                    // Sort by createdAt (newest first)
+                    transactions.sort((a, b) => {
+                        const timeA = a.createdAt || 0;
+                        const timeB = b.createdAt || 0;
+                        return timeB - timeA;
+                    });
+
+                    return { success: true, data: transactions };
+                } catch (error) {
+                    console.error('❌ Error getting transactions:', error);
+                    return { success: false, error: error.message };
+                }
+            }
+
+            // ✏️ UPDATE - Update status transaksi
+            async updateTransaction(docId, updateData) {
+                try {
+                    await this.ensureInitialized();
+                    const transactionRef = this.modules.ref(this.db, `transactions/${docId}`);
+                    await this.modules.update(transactionRef, {
+                        ...updateData,
+                        updatedAt: this.modules.serverTimestamp()
+                    });
+                    return { success: true };
+                } catch (error) {
+                    console.error('❌ Error updating transaction:', error);
+                    return { success: false, error: error.message };
+                }
+            }
+
+            // 📊 ANALYTICS - Get transaction statistics
+            async getTransactionStats(userId = null, userRole = 'admin') {
+                const result = await this.getTransactions(userId, userRole);
+                if (!result.success) return result;
+
+                const transactions = result.data;
+                const stats = {
+                    totalIncome: 0,
+                    totalExpense: 0,
+                    totalProfit: 0,
+                    totalCount: transactions.length,
+                    byCategory: {}
+                };
+
+                transactions.forEach(t => {
+                    const income = t.pemasukan || 0;
+                    const expense = t.pengeluaran || 0;
+                    
+                    stats.totalIncome += income;
+                    stats.totalExpense += expense;
+                    
+                    // Group by category
+                    const category = t.kategori || 'Unknown';
+                    if (!stats.byCategory[category]) {
+                        stats.byCategory[category] = {
+                            income: 0,
+                            expense: 0,
+                            count: 0
+                        };
+                    }
+                    
+                    stats.byCategory[category].income += income;
+                    stats.byCategory[category].expense += expense;
+                    stats.byCategory[category].count += 1;
+                });
+
+                stats.totalProfit = stats.totalIncome - stats.totalExpense;
+
+                return { success: true, data: stats };
+            }
+        }
+
+        // 🚀 INITIALIZE FIREBASE SERVICE
+        const firebaseService = new FirebaseService();
+
+        // 🏗️ TRANSACTION SERVICE - MODULAR ARCHITECTURE
+        class TransactionService {
+            constructor(firebaseService) {
+                this.firebase = firebaseService;
+                this.localTransactions = JSON.parse(localStorage.getItem('transactions') || '[]');
+                this.allTransactions = [];
+            }
+
+            // 💾 SAVE TRANSACTION
+            async saveTransaction(transactionData) {
+                try {
+                    // Try Firebase first
+                    const firebaseResult = await this.firebase.createTransaction(transactionData);
+                    
+                    if (firebaseResult.success) {
+                        return {
+                            success: true,
+                            message: '✅ Transaksi berhasil disimpan ke Firebase Realtime Database!',
+                            source: 'firebase'
+                        };
+                    } else {
+                        // Fallback to local storage
+                        const localTransaction = {
+                            ...transactionData,
+                            id: Date.now().toString(),
+                            createdAt: new Date().toISOString()
+                        };
+                        
+                        this.localTransactions.push(localTransaction);
+                        localStorage.setItem('transactions', JSON.stringify(this.localTransactions));
+                        
+                        return {
+                            success: true,
+                            message: '⚠️ Disimpan lokal (Firebase tidak tersedia)',
+                            source: 'local'
+                        };
+                    }
+                } catch (error) {
+                    console.error('Error in saveTransaction:', error);
+                    return {
+                        success: false,
+                        message: '❌ Gagal menyimpan transaksi',
+                        error: error.message
+                    };
+                }
+            }
+
+            // 📖 LOAD ALL TRANSACTIONS
+            async loadAllTransactions(userId, userRole) {
+                try {
+                    // Try Firebase first
+                    const firebaseResult = await this.firebase.getTransactions(userId, userRole);
+                    
+                    if (firebaseResult.success) {
+                        this.allTransactions = firebaseResult.data;
+                        return {
+                            success: true,
+                            data: this.allTransactions,
+                            source: 'firebase'
+                        };
+                    } else {
+                        // Fallback to local storage
+                        const filteredLocal = this.localTransactions.filter(t => 
+                            userRole === 'admin' || t.createdBy === userId
+                        );
+                        
+                        this.allTransactions = filteredLocal;
+                        return {
+                            success: true,
+                            data: this.allTransactions,
+                            source: 'local'
+                        };
+                    }
+                } catch (error) {
+                    console.error('Error loading transactions:', error);
+                    return {
+                        success: false,
+                        message: '❌ Gagal memuat transaksi',
+                        error: error.message
+                    };
+                }
+            }
+
+            // ✅ APPROVE TRANSACTION
+            async approveTransaction(transactionId, isLocal = false) {
+                try {
+                    if (isLocal) {
+                        const index = this.localTransactions.findIndex(t => t.id === transactionId);
+                        if (index !== -1) {
+                            this.localTransactions[index].status = 'Disetujui ✅';
+                            this.localTransactions[index].approvedAt = new Date().toISOString();
+                            localStorage.setItem('transactions', JSON.stringify(this.localTransactions));
+                            return { success: true, message: '✅ Transaksi berhasil disetujui' };
+                        }
+                    } else {
+                        const result = await this.firebase.updateTransaction(transactionId, {
+                            status: 'Disetujui ✅'
+                        });
+                        
+                        if (result.success) {
+                            return { success: true, message: '✅ Transaksi berhasil disetujui' };
+                        }
+                    }
+                    
+                    return { success: false, message: '❌ Gagal menyetujui transaksi' };
+                } catch (error) {
+                    console.error('Error approving transaction:', error);
+                    return { success: false, message: '❌ Gagal menyetujui transaksi' };
+                }
+            }
+
+            // 🔍 FILTER BY CATEGORY
+            getTransactionsByCategory(category) {
+                const categoryName = category === 'lem' ? 'Lem Styrofoam' : 
+                                  category.charAt(0).toUpperCase() + category.slice(1);
+                return this.allTransactions.filter(t => t.kategori === categoryName);
+            }
+
+            // 📊 GET STATISTICS
+            getStatistics() {
+                const stats = {
+                    totalIncome: 0,
+                    totalExpense: 0,
+                    totalProfit: 0,
+                    totalCount: this.allTransactions.length,
+                    byCategory: {}
+                };
+
+                this.allTransactions.forEach(t => {
+                    const income = t.pemasukan || 0;
+                    const expense = t.pengeluaran || 0;
+                    
+                    stats.totalIncome += income;
+                    stats.totalExpense += expense;
+                    
+                    // Group by category
+                    const category = t.kategori || 'Unknown';
+                    if (!stats.byCategory[category]) {
+                        stats.byCategory[category] = { income: 0, expense: 0, count: 0 };
+                    }
+                    
+                    stats.byCategory[category].income += income;
+                    stats.byCategory[category].expense += expense;
+                    stats.byCategory[category].count += 1;
+                });
+
+                stats.totalProfit = stats.totalIncome - stats.totalExpense;
+                return stats;
+            }
+        }
+
+        // 🔐 USER SERVICE - MODULAR ARCHITECTURE  
+        class UserService {
+            constructor() {
+                this.users = {
+                    'admin': { 
+                        password: 'admin123', 
+                        role: 'admin', 
+                        name: 'Administrator', 
+                        uid: 'admin_uid_001' 
+                    },
+                    'user': { 
+                        password: 'user123', 
+                        role: 'user', 
+                        name: 'User Biasa', 
+                        uid: 'user_uid_001' 
+                    }
+                };
+                this.currentUser = null;
+            }
+
+            // 🔑 LOGIN
+            async login(username, password) {
+                return new Promise((resolve) => {
+                    setTimeout(() => {
+                        if (this.users[username] && this.users[username].password === password) {
+                            this.currentUser = {
+                                uid: this.users[username].uid,
+                                username: username,
+                                role: this.users[username].role,
+                                name: this.users[username].name
+                            };
+                            resolve({ success: true, user: this.currentUser });
+                        } else {
+                            resolve({ 
+                                success: false, 
+                                message: 'Username atau password salah!\nGunakan: admin/admin123 atau user/user123' 
+                            });
+                        }
+                    }, 1000);
+                });
+            }
+
+            // 🚪 LOGOUT
+            logout() {
+                this.currentUser = null;
+            }
+
+            // 👤 GET CURRENT USER
+            getCurrentUser() {
+                return this.currentUser;
+            }
         }
 
         // Configuration object for Element SDK
@@ -1556,25 +1927,132 @@
             login_subtitle: "Username: admin/user | Password: admin123/user123"
         };
 
-        // Hardcoded user accounts
-        const users = {
-            'admin': { 
-                password: 'admin123', 
-                role: 'admin', 
-                name: 'Administrator', 
-                uid: 'admin_uid_001' 
-            },
-            'user': { 
-                password: 'user123', 
-                role: 'user', 
-                name: 'User Biasa', 
-                uid: 'user_uid_001' 
-            }
-        };
-
-        let currentUser = null;
+        // 🚀 INITIALIZE SERVICES
+        const userService = new UserService();
+        const transactionService = new TransactionService(firebaseService);
+        
         let currentSection = 'dashboard';
-        let allTransactions = [];
+
+        // 🎨 UI SERVICE - MODULAR ARCHITECTURE
+        class UIService {
+            constructor() {
+                this.currentSection = 'dashboard';
+            }
+
+            // 🚨 SHOW ERROR MESSAGE
+            showError(message) {
+                const errorDiv = document.getElementById('errorMessage');
+                errorDiv.textContent = message;
+                errorDiv.style.display = 'block';
+                setTimeout(() => {
+                    errorDiv.style.display = 'none';
+                }, 5000);
+            }
+
+            // 📢 SHOW NOTIFICATION
+            showNotification(message, elementId = 'notification') {
+                const notification = document.getElementById(elementId);
+                if (notification) {
+                    notification.textContent = message;
+                    notification.style.display = 'block';
+                    setTimeout(() => {
+                        notification.style.display = 'none';
+                    }, 3000);
+                }
+            }
+
+            // 🏠 SHOW DASHBOARD
+            showDashboard() {
+                document.getElementById('loginPage').style.display = 'none';
+                document.getElementById('dashboardPage').classList.add('active');
+                this.updateUserInfo();
+            }
+
+            // 👤 UPDATE USER INFO
+            updateUserInfo() {
+                const currentUser = userService.getCurrentUser();
+                const userInfoBadge = document.getElementById('userInfoBadge');
+                userInfoBadge.textContent = `${currentUser.name} (${currentUser.role.toUpperCase()})`;
+            }
+
+            // 📱 TOGGLE MOBILE SIDEBAR
+            toggleSidebar() {
+                const sidebar = document.getElementById('sidebar');
+                sidebar.classList.toggle('active');
+            }
+
+            // 🔄 SHOW SECTION
+            showSection(section) {
+                // Update navigation
+                document.querySelectorAll('.nav-link').forEach(link => {
+                    link.classList.remove('active');
+                });
+                event.target.closest('.nav-link').classList.add('active');
+                
+                // Update content
+                document.querySelectorAll('.content-section').forEach(sec => {
+                    sec.classList.remove('active');
+                });
+                
+                const sectionElement = document.getElementById(section + 'Section');
+                if (sectionElement) {
+                    sectionElement.classList.add('active');
+                }
+                
+                // Update page title
+                const titles = {
+                    'dashboard': 'Dashboard',
+                    'studio': '🎬 Studio',
+                    'styrofoam': '📦 Styrofoam',
+                    'lem': '🧪 Lem Styrofoam',
+                    'reports': '📋 Reports'
+                };
+                
+                document.getElementById('pageTitle').textContent = titles[section] || 'Dashboard';
+                this.currentSection = section;
+            }
+
+            // 🪟 MODAL FUNCTIONS
+            openModal(modalId) {
+                document.getElementById(modalId).classList.add('active');
+                
+                // Set today's date
+                const category = modalId.replace('Modal', '');
+                const dateInput = document.getElementById(category + 'Tanggal');
+                if (dateInput) {
+                    dateInput.value = new Date().toISOString().split('T')[0];
+                }
+            }
+
+            closeModal(modalId) {
+                document.getElementById(modalId).classList.remove('active');
+                
+                // Reset form
+                const category = modalId.replace('Modal', '');
+                const form = document.getElementById(category + 'Form');
+                if (form) {
+                    form.reset();
+                }
+            }
+
+            // 📊 UPDATE DASHBOARD STATS
+            updateDashboardStats(stats) {
+                document.getElementById('totalIncome').textContent = `Rp ${stats.totalIncome.toLocaleString('id-ID')}`;
+                document.getElementById('totalExpense').textContent = `Rp ${stats.totalExpense.toLocaleString('id-ID')}`;
+                document.getElementById('totalProfit').textContent = `Rp ${stats.totalProfit.toLocaleString('id-ID')}`;
+                document.getElementById('totalTransactions').textContent = stats.totalCount;
+                
+                // Update category stats
+                ['studio', 'styrofoam', 'lem'].forEach(category => {
+                    const categoryName = category === 'lem' ? 'Lem Styrofoam' : category.charAt(0).toUpperCase() + category.slice(1);
+                    const categoryStats = stats.byCategory[categoryName] || { income: 0, expense: 0, count: 0 };
+                    
+                    document.getElementById(category + 'Income').textContent = `Rp ${categoryStats.income.toLocaleString('id-ID')}`;
+                    document.getElementById(category + 'Expense').textContent = `Rp ${categoryStats.expense.toLocaleString('id-ID')}`;
+                    document.getElementById(category + 'Count').textContent = categoryStats.count;
+                });
+            }
+        }
 
         // Initialize Element SDK
         if (window.elementSdk) {
@@ -1601,354 +2079,247 @@
             });
         }
 
-        // Local storage fallback
-        let localTransactions = JSON.parse(localStorage.getItem('transactions') || '[]');
+        // 🚀 INITIALIZE UI SERVICE
+        const uiService = new UIService();
 
-        // Show error message
-        function showError(message) {
-            const errorDiv = document.getElementById('errorMessage');
-            errorDiv.textContent = message;
-            errorDiv.style.display = 'block';
-            setTimeout(() => {
-                errorDiv.style.display = 'none';
-            }, 5000);
-        }
-
-        // Show notification
-        function showNotification(message, elementId = 'notification') {
-            const notification = document.getElementById(elementId);
-            if (notification) {
-                notification.textContent = message;
-                notification.style.display = 'block';
-                setTimeout(() => {
-                    notification.style.display = 'none';
-                }, 3000);
+        // 🎯 MAIN APPLICATION CONTROLLER
+        class AppController {
+            constructor(userService, transactionService, uiService) {
+                this.userService = userService;
+                this.transactionService = transactionService;
+                this.uiService = uiService;
+                this.initializeEventListeners();
             }
-        }
 
-        // Login functionality
-        document.getElementById('loginForm').addEventListener('submit', function(e) {
-            e.preventDefault();
-            
-            const username = document.getElementById('username').value;
-            const password = document.getElementById('password').value;
-            const loginBtn = document.getElementById('loginBtn');
-            const loginText = document.getElementById('loginText');
-            const loginLoading = document.getElementById('loginLoading');
-            
-            // Show loading
-            loginBtn.disabled = true;
-            loginText.style.display = 'none';
-            loginLoading.style.display = 'inline-block';
-            
-            setTimeout(() => {
-                if (users[username] && users[username].password === password) {
-                    currentUser = {
-                        uid: users[username].uid,
-                        username: username,
-                        role: users[username].role,
-                        name: users[username].name
+            // 🎮 INITIALIZE EVENT LISTENERS
+            initializeEventListeners() {
+                // Login form
+                document.getElementById('loginForm').addEventListener('submit', (e) => {
+                    e.preventDefault();
+                    this.handleLogin();
+                });
+
+                // Transaction forms
+                ['studio', 'styrofoam', 'lem'].forEach(category => {
+                    document.getElementById(category + 'Form').addEventListener('submit', (e) => {
+                        e.preventDefault();
+                        this.handleSaveTransaction(category);
+                    });
+                });
+
+                // Close modal when clicking outside
+                window.addEventListener('click', (e) => {
+                    if (e.target.classList.contains('modal')) {
+                        e.target.classList.remove('active');
+                    }
+                });
+            }
+
+            // 🔑 HANDLE LOGIN
+            async handleLogin() {
+                const username = document.getElementById('username').value;
+                const password = document.getElementById('password').value;
+                const loginBtn = document.getElementById('loginBtn');
+                const loginText = document.getElementById('loginText');
+                const loginLoading = document.getElementById('loginLoading');
+                
+                // Show loading
+                loginBtn.disabled = true;
+                loginText.style.display = 'none';
+                loginLoading.style.display = 'inline-block';
+                
+                try {
+                    const result = await this.userService.login(username, password);
+                    
+                    if (result.success) {
+                        this.uiService.showDashboard();
+                        await this.loadAllTransactions();
+                    } else {
+                        this.uiService.showError(result.message);
+                    }
+                } catch (error) {
+                    this.uiService.showError('Terjadi kesalahan saat login');
+                } finally {
+                    // Hide loading
+                    loginBtn.disabled = false;
+                    loginText.style.display = 'inline';
+                    loginLoading.style.display = 'none';
+                }
+            }
+
+            // 💾 HANDLE SAVE TRANSACTION
+            async handleSaveTransaction(category) {
+                const saveBtn = document.getElementById(category + 'SaveBtn');
+                const saveText = document.getElementById(category + 'SaveText');
+                const saveLoading = document.getElementById(category + 'SaveLoading');
+                
+                // Show loading
+                saveBtn.disabled = true;
+                saveText.style.display = 'none';
+                saveLoading.style.display = 'inline-block';
+                
+                try {
+                    const currentUser = this.userService.getCurrentUser();
+                    const transaction = {
+                        kategori: category === 'lem' ? 'Lem Styrofoam' : category.charAt(0).toUpperCase() + category.slice(1),
+                        tanggal: document.getElementById(category + 'Tanggal').value,
+                        kota: document.getElementById(category + 'Kota').value,
+                        pemasukan: parseInt(document.getElementById(category + 'Pemasukan').value) || 0,
+                        pengeluaran: parseInt(document.getElementById(category + 'Pengeluaran').value) || 0,
+                        harga: parseInt(document.getElementById(category + 'Harga').value) || 0,
+                        keterangan: document.getElementById(category + 'Keterangan').value,
+                        status: 'Menunggu Konfirmasi',
+                        createdBy: currentUser.uid,
+                        createdByUsername: currentUser.username
                     };
                     
-                    showDashboard();
+                    const result = await this.transactionService.saveTransaction(transaction);
+                    
+                    if (result.success) {
+                        this.uiService.showNotification(result.message, category + 'Notification');
+                        this.uiService.closeModal(category + 'Modal');
+                        await this.loadAllTransactions();
+                        this.loadSectionTransactions(category);
+                    } else {
+                        this.uiService.showNotification(result.message, category + 'Notification');
+                    }
+                    
+                } catch (error) {
+                    console.error('Error saving transaction:', error);
+                    this.uiService.showNotification('❌ Gagal menyimpan transaksi', category + 'Notification');
+                } finally {
+                    // Hide loading
+                    saveBtn.disabled = false;
+                    saveText.style.display = 'inline';
+                    saveLoading.style.display = 'none';
+                }
+            }
+
+            // 📖 LOAD ALL TRANSACTIONS
+            async loadAllTransactions() {
+                const currentUser = this.userService.getCurrentUser();
+                if (!currentUser) return;
+
+                const result = await this.transactionService.loadAllTransactions(currentUser.uid, currentUser.role);
+                
+                if (result.success) {
+                    const stats = this.transactionService.getStatistics();
+                    this.uiService.updateDashboardStats(stats);
                 } else {
-                    showError('Username atau password salah!\nGunakan: admin/admin123 atau user/user123');
+                    console.error('Failed to load transactions:', result.error);
+                }
+            }
+
+            // 📋 LOAD SECTION TRANSACTIONS
+            loadSectionTransactions(category) {
+                const transactions = this.transactionService.getTransactionsByCategory(category);
+                const tbody = document.getElementById(category + 'TableBody');
+                tbody.innerHTML = '';
+                
+                if (transactions.length === 0) {
+                    const row = document.createElement('tr');
+                    row.innerHTML = '<td colspan="8" style="text-align: center; color: #64748b; padding: 20px;">Belum ada data transaksi</td>';
+                    tbody.appendChild(row);
+                    return;
                 }
                 
-                // Hide loading
-                loginBtn.disabled = false;
-                loginText.style.display = 'inline';
-                loginLoading.style.display = 'none';
-            }, 1000);
-        });
+                transactions.forEach(transaction => {
+                    const row = document.createElement('tr');
+                    const statusClass = transaction.status === 'Disetujui ✅' ? 'status-approved' : 'status-pending';
+                    const currentUser = this.userService.getCurrentUser();
+                    
+                    const actionButton = currentUser.role === 'admin' && transaction.status === 'Menunggu Konfirmasi' 
+                        ? `<button class="approve-btn" onclick="appController.approveTransaction('${transaction.docId || transaction.id}', ${!transaction.docId})">✅ Approve</button>`
+                        : '-';
+                    
+                    const tanggal = transaction.tanggal ? new Date(transaction.tanggal).toLocaleDateString('id-ID') : '-';
+                    
+                    row.innerHTML = `
+                        <td>${tanggal}</td>
+                        <td>${transaction.kota || '-'}</td>
+                        <td>Rp ${(transaction.pemasukan || 0).toLocaleString('id-ID')}</td>
+                        <td>Rp ${(transaction.pengeluaran || 0).toLocaleString('id-ID')}</td>
+                        <td>Rp ${(transaction.harga || 0).toLocaleString('id-ID')}</td>
+                        <td>${transaction.keterangan || '-'}</td>
+                        <td><span class="${statusClass}">${transaction.status || 'Menunggu Konfirmasi'}</span></td>
+                        <td>${actionButton}</td>
+                    `;
+                    
+                    tbody.appendChild(row);
+                });
+            }
 
-        // Show dashboard
-        function showDashboard() {
-            document.getElementById('loginPage').style.display = 'none';
-            document.getElementById('dashboardPage').classList.add('active');
-            
-            updateUserInfo();
-            loadAllTransactions();
+            // ✅ APPROVE TRANSACTION
+            async approveTransaction(transactionId, isLocal = false) {
+                try {
+                    const result = await this.transactionService.approveTransaction(transactionId, isLocal);
+                    
+                    if (result.success) {
+                        this.uiService.showNotification(result.message);
+                        await this.loadAllTransactions();
+                        
+                        if (this.uiService.currentSection !== 'dashboard') {
+                            this.loadSectionTransactions(this.uiService.currentSection);
+                        }
+                    } else {
+                        this.uiService.showNotification(result.message);
+                    }
+                } catch (error) {
+                    console.error('Error approving transaction:', error);
+                    this.uiService.showNotification('❌ Gagal menyetujui transaksi');
+                }
+            }
+
+            // 🚪 LOGOUT
+            logout() {
+                this.userService.logout();
+                this.transactionService.allTransactions = [];
+                document.getElementById('loginPage').style.display = 'flex';
+                document.getElementById('dashboardPage').classList.remove('active');
+                document.getElementById('loginForm').reset();
+                
+                // Reset to dashboard
+                this.showSection('dashboard');
+            }
+
+            // 🔄 SHOW SECTION
+            showSection(section) {
+                this.uiService.showSection(section);
+                
+                // Load section-specific data
+                if (section !== 'dashboard') {
+                    this.loadSectionTransactions(section);
+                }
+                
+                // Auto-generate report when entering reports section
+                if (section === 'reports') {
+                    this.generateReport();
+                }
+            }
         }
 
-        // Update user info
-        function updateUserInfo() {
-            const userInfoBadge = document.getElementById('userInfoBadge');
-            userInfoBadge.textContent = `${currentUser.name} (${currentUser.role.toUpperCase()})`;
-        }
+        // 🚀 INITIALIZE MAIN APPLICATION
+        const appController = new AppController(userService, transactionService, uiService);
 
-        // Show section
+        // 🌐 GLOBAL FUNCTIONS FOR HTML ONCLICK EVENTS
         function showSection(section) {
-            // Update navigation
-            document.querySelectorAll('.nav-link').forEach(link => {
-                link.classList.remove('active');
-            });
-            event.target.closest('.nav-link').classList.add('active');
-            
-            // Update content
-            document.querySelectorAll('.content-section').forEach(sec => {
-                sec.classList.remove('active');
-            });
-            
-            const sectionElement = document.getElementById(section + 'Section');
-            if (sectionElement) {
-                sectionElement.classList.add('active');
-            }
-            
-            // Update page title
-            const titles = {
-                'dashboard': 'Dashboard',
-                'studio': '🎬 Studio',
-                'styrofoam': '📦 Styrofoam',
-                'lem': '🧪 Lem Styrofoam',
-                'reports': '📋 Reports'
-            };
-            
-            document.getElementById('pageTitle').textContent = titles[section] || 'Dashboard';
-            currentSection = section;
-            
-            // Load section-specific data
-            if (section !== 'dashboard') {
-                loadSectionTransactions(section);
-            }
-            
-            // Auto-generate report when entering reports section
-            if (section === 'reports') {
-                generateReport();
-            }
-            
-
+            appController.showSection(section);
         }
 
-        // Modal functions
         function openModal(modalId) {
-            document.getElementById(modalId).classList.add('active');
-            
-            // Set today's date
-            const category = modalId.replace('Modal', '');
-            const dateInput = document.getElementById(category + 'Tanggal');
-            if (dateInput) {
-                dateInput.value = new Date().toISOString().split('T')[0];
-            }
+            uiService.openModal(modalId);
         }
 
         function closeModal(modalId) {
-            document.getElementById(modalId).classList.remove('active');
-            
-            // Reset form
-            const category = modalId.replace('Modal', '');
-            const form = document.getElementById(category + 'Form');
-            if (form) {
-                form.reset();
-            }
+            uiService.closeModal(modalId);
         }
 
-        // Transaction form handlers
-        ['studio', 'styrofoam', 'lem'].forEach(category => {
-            document.getElementById(category + 'Form').addEventListener('submit', async function(e) {
-                e.preventDefault();
-                await saveTransaction(category);
-            });
-        });
-
-        // Save transaction
-        async function saveTransaction(category) {
-            const saveBtn = document.getElementById(category + 'SaveBtn');
-            const saveText = document.getElementById(category + 'SaveText');
-            const saveLoading = document.getElementById(category + 'SaveLoading');
-            
-            // Show loading
-            saveBtn.disabled = true;
-            saveText.style.display = 'none';
-            saveLoading.style.display = 'inline-block';
-            
-            try {
-                const transaction = {
-                    id: Date.now().toString(),
-                    kategori: category === 'lem' ? 'Lem Styrofoam' : category.charAt(0).toUpperCase() + category.slice(1),
-                    tanggal: document.getElementById(category + 'Tanggal').value,
-                    kota: document.getElementById(category + 'Kota').value,
-                    pemasukan: parseInt(document.getElementById(category + 'Pemasukan').value) || 0,
-                    pengeluaran: parseInt(document.getElementById(category + 'Pengeluaran').value) || 0,
-                    harga: parseInt(document.getElementById(category + 'Harga').value) || 0,
-                    keterangan: document.getElementById(category + 'Keterangan').value,
-                    status: 'Menunggu Konfirmasi',
-                    createdBy: currentUser.uid,
-                    createdByUsername: currentUser.username,
-                    createdAt: new Date().toISOString()
-                };
-                
-                if (firebaseInitialized) {
-                    try {
-                        await db.collection('transactions').add(transaction);
-                        showNotification('✅ Transaksi berhasil disimpan ke Firebase Cloud!', category + 'Notification');
-                    } catch (firebaseError) {
-                        console.error('Firebase error, using local storage:', firebaseError);
-                        localTransactions.push(transaction);
-                        localStorage.setItem('transactions', JSON.stringify(localTransactions));
-                        showNotification('⚠️ Disimpan lokal (Firebase tidak tersedia)', category + 'Notification');
-                    }
-                } else {
-                    localTransactions.push(transaction);
-                    localStorage.setItem('transactions', JSON.stringify(localTransactions));
-                    showNotification('💾 Transaksi disimpan lokal', category + 'Notification');
-                }
-                
-                // Close modal and reload data
-                closeModal(category + 'Modal');
-                loadAllTransactions();
-                loadSectionTransactions(category);
-                
-            } catch (error) {
-                console.error('Error saving transaction:', error);
-                showNotification('❌ Gagal menyimpan transaksi', category + 'Notification');
-            } finally {
-                // Hide loading
-                saveBtn.disabled = false;
-                saveText.style.display = 'inline';
-                saveLoading.style.display = 'none';
-            }
-        }
-
-        // Load all transactions
-        async function loadAllTransactions() {
-            allTransactions = [];
-            
-            if (firebaseInitialized) {
-                try {
-                    let query = db.collection('transactions').orderBy('createdAt', 'desc');
-                    
-                    if (currentUser.role === 'user') {
-                        query = query.where('createdBy', '==', currentUser.uid);
-                    }
-                    
-                    const snapshot = await query.get();
-                    
-                    snapshot.forEach(doc => {
-                        const transaction = doc.data();
-                        transaction.docId = doc.id;
-                        allTransactions.push(transaction);
-                    });
-                    
-                } catch (firebaseError) {
-                    console.error('Firebase load error, using local storage:', firebaseError);
-                    allTransactions = localTransactions.filter(t => 
-                        currentUser.role === 'admin' || t.createdBy === currentUser.uid
-                    );
-                }
-            } else {
-                allTransactions = localTransactions.filter(t => 
-                    currentUser.role === 'admin' || t.createdBy === currentUser.uid
-                );
-            }
-            
-            updateDashboardStats();
-        }
-
-        // Load section transactions
-        function loadSectionTransactions(category) {
-            const categoryName = category === 'lem' ? 'Lem Styrofoam' : category.charAt(0).toUpperCase() + category.slice(1);
-            const transactions = allTransactions.filter(t => t.kategori === categoryName);
-            
-            const tbody = document.getElementById(category + 'TableBody');
-            tbody.innerHTML = '';
-            
-            transactions.forEach(transaction => {
-                const row = document.createElement('tr');
-                
-                const statusClass = transaction.status === 'Disetujui ✅' ? 'status-approved' : 'status-pending';
-                const actionButton = currentUser.role === 'admin' && transaction.status === 'Menunggu Konfirmasi' 
-                    ? `<button class="approve-btn" onclick="approveTransaction('${transaction.docId || transaction.id}', ${!firebaseInitialized})">✅ Approve</button>`
-                    : '-';
-                
-                const tanggal = transaction.tanggal ? new Date(transaction.tanggal).toLocaleDateString('id-ID') : '-';
-                
-                row.innerHTML = `
-                    <td>${tanggal}</td>
-                    <td>${transaction.kota || '-'}</td>
-                    <td>Rp ${(transaction.pemasukan || 0).toLocaleString('id-ID')}</td>
-                    <td>Rp ${(transaction.pengeluaran || 0).toLocaleString('id-ID')}</td>
-                    <td>Rp ${(transaction.harga || 0).toLocaleString('id-ID')}</td>
-                    <td>${transaction.keterangan || '-'}</td>
-                    <td><span class="${statusClass}">${transaction.status || 'Menunggu Konfirmasi'}</span></td>
-                    <td>${actionButton}</td>
-                `;
-                
-                tbody.appendChild(row);
-            });
-            
-            if (transactions.length === 0) {
-                const row = document.createElement('tr');
-                row.innerHTML = '<td colspan="8" style="text-align: center; color: #64748b; padding: 20px;">Belum ada data transaksi</td>';
-                tbody.appendChild(row);
-            }
-        }
-
-        // Update dashboard stats
-        function updateDashboardStats() {
-            const totalIncome = allTransactions.reduce((sum, t) => sum + (t.pemasukan || 0), 0);
-            const totalExpense = allTransactions.reduce((sum, t) => sum + (t.pengeluaran || 0), 0);
-            const totalProfit = totalIncome - totalExpense;
-            const totalCount = allTransactions.length;
-            
-            document.getElementById('totalIncome').textContent = `Rp ${totalIncome.toLocaleString('id-ID')}`;
-            document.getElementById('totalExpense').textContent = `Rp ${totalExpense.toLocaleString('id-ID')}`;
-            document.getElementById('totalProfit').textContent = `Rp ${totalProfit.toLocaleString('id-ID')}`;
-            document.getElementById('totalTransactions').textContent = totalCount;
-            
-            // Update category stats
-            ['studio', 'styrofoam', 'lem'].forEach(category => {
-                const categoryName = category === 'lem' ? 'Lem Styrofoam' : category.charAt(0).toUpperCase() + category.slice(1);
-                const categoryTransactions = allTransactions.filter(t => t.kategori === categoryName);
-                
-                const income = categoryTransactions.reduce((sum, t) => sum + (t.pemasukan || 0), 0);
-                const expense = categoryTransactions.reduce((sum, t) => sum + (t.pengeluaran || 0), 0);
-                const count = categoryTransactions.length;
-                
-                document.getElementById(category + 'Income').textContent = `Rp ${income.toLocaleString('id-ID')}`;
-                document.getElementById(category + 'Expense').textContent = `Rp ${expense.toLocaleString('id-ID')}`;
-                document.getElementById(category + 'Count').textContent = count;
-            });
-        }
-
-        // Approve transaction
-        async function approveTransaction(transactionId, isLocal = false) {
-            try {
-                if (isLocal || !firebaseInitialized) {
-                    const index = localTransactions.findIndex(t => t.id === transactionId);
-                    if (index !== -1) {
-                        localTransactions[index].status = 'Disetujui ✅';
-                        localTransactions[index].approvedBy = currentUser.uid;
-                        localTransactions[index].approvedAt = new Date().toISOString();
-                        localStorage.setItem('transactions', JSON.stringify(localTransactions));
-                        showNotification('✅ Transaksi berhasil disetujui');
-                    }
-                } else {
-                    await db.collection('transactions').doc(transactionId).update({
-                        status: 'Disetujui ✅',
-                        approvedBy: currentUser.uid,
-                        approvedAt: firebase.firestore.FieldValue.serverTimestamp()
-                    });
-                    showNotification('✅ Transaksi berhasil disetujui');
-                }
-                
-                loadAllTransactions();
-                if (currentSection !== 'dashboard') {
-                    loadSectionTransactions(currentSection);
-                }
-                
-            } catch (error) {
-                console.error('Error approving transaction:', error);
-                showNotification('❌ Gagal menyetujui transaksi');
-            }
-        }
-
-
-
-        // Mobile sidebar toggle
         function toggleSidebar() {
-            const sidebar = document.getElementById('sidebar');
-            sidebar.classList.toggle('active');
+            uiService.toggleSidebar();
+        }
+
+        function logout() {
+            appController.logout();
         }
 
         // Filter reports by period
@@ -1970,19 +2341,19 @@
         function getFilteredTransactions() {
             const period = document.getElementById('periodFilter').value;
             const now = new Date();
-            let filteredTransactions = [...allTransactions];
+            let filteredTransactions = [...transactionService.allTransactions];
             
             switch (period) {
                 case 'today':
                     const today = now.toISOString().split('T')[0];
-                    filteredTransactions = allTransactions.filter(t => t.tanggal === today);
+                    filteredTransactions = transactionService.allTransactions.filter(t => t.tanggal === today);
                     break;
                     
                 case 'week':
                     const weekStart = new Date(now);
                     weekStart.setDate(now.getDate() - now.getDay());
                     weekStart.setHours(0, 0, 0, 0);
-                    filteredTransactions = allTransactions.filter(t => {
+                    filteredTransactions = transactionService.allTransactions.filter(t => {
                         const transactionDate = new Date(t.tanggal);
                         return transactionDate >= weekStart;
                     });
@@ -1990,7 +2361,7 @@
                     
                 case 'month':
                     const monthStart = new Date(now.getFullYear(), now.getMonth(), 1);
-                    filteredTransactions = allTransactions.filter(t => {
+                    filteredTransactions = transactionService.allTransactions.filter(t => {
                         const transactionDate = new Date(t.tanggal);
                         return transactionDate >= monthStart;
                     });
@@ -1998,7 +2369,7 @@
                     
                 case 'year':
                     const yearStart = new Date(now.getFullYear(), 0, 1);
-                    filteredTransactions = allTransactions.filter(t => {
+                    filteredTransactions = transactionService.allTransactions.filter(t => {
                         const transactionDate = new Date(t.tanggal);
                         return transactionDate >= yearStart;
                     });
@@ -2008,14 +2379,14 @@
                     const startDate = document.getElementById('startDate').value;
                     const endDate = document.getElementById('endDate').value;
                     if (startDate && endDate) {
-                        filteredTransactions = allTransactions.filter(t => {
+                        filteredTransactions = transactionService.allTransactions.filter(t => {
                             return t.tanggal >= startDate && t.tanggal <= endDate;
                         });
                     }
                     break;
                     
                 default: // 'all'
-                    filteredTransactions = allTransactions;
+                    filteredTransactions = transactionService.allTransactions;
             }
             
             return filteredTransactions;
@@ -2128,9 +2499,9 @@
 
         // Refresh report
         function refreshReport() {
-            loadAllTransactions().then(() => {
+            appController.loadAllTransactions().then(() => {
                 generateReport();
-                showNotification('📊 Laporan berhasil diperbarui!');
+                uiService.showNotification('📊 Laporan berhasil diperbarui!');
             });
         }
 
@@ -2175,7 +2546,7 @@
             document.body.removeChild(a);
             window.URL.revokeObjectURL(url);
             
-            showNotification('📄 Laporan PDF berhasil diunduh!');
+            uiService.showNotification('📄 Laporan PDF berhasil diunduh!');
         }
 
         // Export to Excel (Demo - CSV format)
@@ -2210,7 +2581,7 @@
             document.body.removeChild(a);
             window.URL.revokeObjectURL(url);
             
-            showNotification('📊 Laporan Excel berhasil diunduh!');
+            uiService.showNotification('📊 Laporan Excel berhasil diunduh!');
         }
 
         // Get period label
@@ -2224,18 +2595,6 @@
                 'custom': 'Periode Kustom'
             };
             return labels[period] || 'Semua Periode';
-        }
-
-        // Logout
-        function logout() {
-            currentUser = null;
-            allTransactions = [];
-            document.getElementById('loginPage').style.display = 'flex';
-            document.getElementById('dashboardPage').classList.remove('active');
-            document.getElementById('loginForm').reset();
-            
-            // Reset to dashboard
-            showSection('dashboard');
         }
 
         // Initialize
@@ -2258,5 +2617,5 @@
             }
         });
     </script>
- <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9969dbbd3035df78',t:'MTc2MTgxNjI1My4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+ <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'996aa32fe301df78',t:'MTc2MTgyNDQyMi4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
 </html>
