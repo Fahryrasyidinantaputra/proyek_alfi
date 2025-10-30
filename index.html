@@ -1,101 +1,2262 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="id">
-<head>
+ <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Manajemen Proyek Studio</title>
-
-  <!-- Tailwind CSS -->
-  <script src="https://cdn.tailwindcss.com"></script>
-
-  <!-- Font & Icon -->
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
-
+  <title>Keuangan PT KYLIAN ART PRODUCTION</title>
+  <script src="/_sdk/element_sdk.js"></script><!-- Firebase v8 CDN -->
+  <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-firestore.js"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&amp;display=swap" rel="stylesheet">
   <style>
-    body {
-      font-family: 'Poppins', sans-serif;
-      background: linear-gradient(135deg, #ffb6d9, #90caf9);
-      min-height: 100vh;
-    }
-    .glass {
-      background: rgba(255, 255, 255, 0.2);
-      backdrop-filter: blur(16px);
-      border: 1px solid rgba(255, 255, 255, 0.3);
-    }
-    .btn-active {
-      background: linear-gradient(135deg, #ec4899, #3b82f6);
-      color: white !important;
-      box-shadow: 0 0 15px rgba(236, 72, 153, 0.4);
-    }
-  </style>
-</head>
+        body {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(135deg, #ec4899 0%, #3b82f6 100%);
+            min-height: 100%;
+            color: #1a202c;
+        }
 
-<body class="flex flex-col items-center justify-center p-6">
+        html, body {
+            height: 100%;
+        }
 
-  <h1 class="text-4xl font-bold text-white drop-shadow-lg mb-10">💼 Manajemen Pengerjaan</h1>
+        * {
+            box-sizing: border-box;
+        }
 
-  <div class="glass rounded-3xl p-6 w-full max-w-2xl text-center shadow-xl">
-    <h2 class="text-2xl font-semibold text-white mb-4">Pilih Jenis Pengerjaan</h2>
+        /* Login Page Styles */
+        .login-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100%;
+            padding: 20px;
+            background: linear-gradient(135deg, #ec4899 0%, #3b82f6 100%);
+        }
 
-    <div class="flex justify-center gap-3 mb-8">
-      <button id="btn-studio" class="tab-btn px-5 py-2 rounded-full font-semibold text-pink-700 hover:scale-105 transition">Studio</button>
-      <button id="btn-lem" class="tab-btn px-5 py-2 rounded-full font-semibold text-pink-700 hover:scale-105 transition">Lem Styrofoam</button>
-      <button id="btn-styrofoam" class="tab-btn px-5 py-2 rounded-full font-semibold text-pink-700 hover:scale-105 transition">Styrofoam</button>
+        .login-card {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(20px);
+            padding: 50px;
+            border-radius: 24px;
+            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.15);
+            width: 100%;
+            max-width: 450px;
+            text-align: center;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .logo {
+            font-size: 32px;
+            font-weight: 800;
+            background: linear-gradient(135deg, #ec4899 0%, #3b82f6 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 12px;
+        }
+
+        .company-title {
+            font-size: 16px;
+            color: #64748b;
+            margin-bottom: 40px;
+            font-weight: 500;
+        }
+
+        .form-group {
+            margin-bottom: 24px;
+            text-align: left;
+        }
+
+        .form-label {
+            display: block;
+            margin-bottom: 10px;
+            font-weight: 600;
+            color: #374151;
+            font-size: 15px;
+        }
+
+        .form-input {
+            width: 100%;
+            padding: 16px 20px;
+            border: 2px solid #e2e8f0;
+            border-radius: 16px;
+            font-size: 15px;
+            font-family: 'Inter', sans-serif;
+            transition: all 0.3s ease;
+            background: rgba(255, 255, 255, 0.8);
+        }
+
+        .form-input:focus {
+            outline: none;
+            border-color: #ec4899;
+            box-shadow: 0 0 0 4px rgba(236, 72, 153, 0.1);
+            background: white;
+        }
+
+        .login-btn {
+            width: 100%;
+            padding: 18px;
+            background: linear-gradient(135deg, #ec4899 0%, #3b82f6 100%);
+            color: white;
+            border: none;
+            border-radius: 16px;
+            font-size: 16px;
+            font-weight: 700;
+            font-family: 'Inter', sans-serif;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-bottom: 20px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .login-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 15px 35px rgba(236, 72, 153, 0.4);
+        }
+
+        .login-btn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .login-subtitle {
+            font-size: 13px;
+            color: #64748b;
+            line-height: 1.5;
+            font-weight: 500;
+        }
+
+        .error-message {
+            background: linear-gradient(135deg, #fee2e2 0%, #fecaca 100%);
+            color: #dc2626;
+            padding: 16px;
+            border-radius: 12px;
+            margin-bottom: 20px;
+            font-size: 14px;
+            display: none;
+            font-weight: 500;
+        }
+
+        .loading {
+            display: inline-block;
+            width: 18px;
+            height: 18px;
+            border: 2px solid #ffffff;
+            border-radius: 50%;
+            border-top-color: transparent;
+            animation: spin 1s ease-in-out infinite;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        /* Dashboard Styles */
+        .dashboard {
+            display: none;
+            background: #f8fafc;
+            min-height: 100%;
+        }
+
+        .dashboard.active {
+            display: block;
+        }
+
+        .sidebar {
+            position: fixed;
+            left: 0;
+            top: 0;
+            width: 280px;
+            height: 100%;
+            background: linear-gradient(180deg, #1e1b4b 0%, #312e81 100%);
+            padding: 30px 0;
+            z-index: 1000;
+            box-shadow: 4px 0 20px rgba(0, 0, 0, 0.1);
+        }
+
+        .sidebar-header {
+            padding: 0 30px 30px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            margin-bottom: 30px;
+        }
+
+        .sidebar-logo {
+            font-size: 24px;
+            font-weight: 800;
+            color: white;
+            margin-bottom: 8px;
+        }
+
+        .sidebar-company {
+            font-size: 12px;
+            color: #94a3b8;
+            font-weight: 500;
+        }
+
+        .nav-menu {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .nav-item {
+            margin-bottom: 8px;
+        }
+
+        .nav-link {
+            display: flex;
+            align-items: center;
+            padding: 16px 30px;
+            color: #cbd5e1;
+            text-decoration: none;
+            font-weight: 500;
+            font-size: 15px;
+            transition: all 0.3s ease;
+            border-right: 3px solid transparent;
+        }
+
+        .nav-link:hover {
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+        }
+
+        .nav-link.active {
+            background: rgba(236, 72, 153, 0.2);
+            color: white;
+            border-right-color: #ec4899;
+        }
+
+        .nav-icon {
+            margin-right: 12px;
+            font-size: 18px;
+        }
+
+        .main-content {
+            margin-left: 280px;
+            padding: 30px;
+            min-height: 100%;
+        }
+
+        .top-bar {
+            background: white;
+            padding: 20px 30px;
+            border-radius: 20px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+            margin-bottom: 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .page-title {
+            font-size: 28px;
+            font-weight: 800;
+            color: #1e293b;
+            margin: 0;
+        }
+
+        .user-menu {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .user-info-badge {
+            background: linear-gradient(135deg, #ec4899 0%, #3b82f6 100%);
+            color: white;
+            padding: 12px 20px;
+            border-radius: 12px;
+            font-size: 14px;
+            font-weight: 600;
+        }
+
+        .logout-btn {
+            background: #ef4444;
+            color: white;
+            border: none;
+            padding: 12px 20px;
+            border-radius: 12px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .logout-btn:hover {
+            background: #dc2626;
+            transform: translateY(-2px);
+        }
+
+        /* Category Cards */
+        .category-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 24px;
+            margin-bottom: 40px;
+        }
+
+        .category-card {
+            background: white;
+            padding: 30px;
+            border-radius: 20px;
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.08);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: 2px solid transparent;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .category-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(135deg, #ec4899 0%, #3b82f6 100%);
+        }
+
+        .category-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+            border-color: #ec4899;
+        }
+
+        .category-card.active {
+            border-color: #ec4899;
+            background: linear-gradient(135deg, rgba(236, 72, 153, 0.05) 0%, rgba(59, 130, 246, 0.05) 100%);
+        }
+
+        .category-icon {
+            font-size: 48px;
+            margin-bottom: 20px;
+            display: block;
+        }
+
+        .category-title {
+            font-size: 24px;
+            font-weight: 700;
+            color: #1e293b;
+            margin-bottom: 12px;
+        }
+
+        .category-stats {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 16px;
+        }
+
+        .stat-item {
+            text-align: center;
+        }
+
+        .stat-value {
+            font-size: 20px;
+            font-weight: 700;
+            color: #ec4899;
+            display: block;
+        }
+
+        .stat-label {
+            font-size: 12px;
+            color: #64748b;
+            font-weight: 500;
+        }
+
+        .category-description {
+            color: #64748b;
+            font-size: 14px;
+            line-height: 1.5;
+        }
+
+        /* Stats Cards */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 24px;
+            margin-bottom: 40px;
+        }
+
+        .stat-card {
+            background: white;
+            padding: 30px;
+            border-radius: 20px;
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.08);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .stat-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+        }
+
+        .stat-card.income::before {
+            background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+        }
+
+        .stat-card.expense::before {
+            background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);
+        }
+
+        .stat-card.profit::before {
+            background: linear-gradient(135deg, #ec4899 0%, #3b82f6 100%);
+        }
+
+        .stat-card.total::before {
+            background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
+        }
+
+        .stat-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .stat-title {
+            font-size: 16px;
+            font-weight: 600;
+            color: #64748b;
+        }
+
+        .stat-icon {
+            font-size: 24px;
+            padding: 12px;
+            border-radius: 12px;
+            background: rgba(236, 72, 153, 0.1);
+        }
+
+        .stat-amount {
+            font-size: 32px;
+            font-weight: 800;
+            color: #1e293b;
+            margin-bottom: 8px;
+        }
+
+        .stat-change {
+            font-size: 14px;
+            font-weight: 600;
+        }
+
+        .stat-change.positive {
+            color: #10b981;
+        }
+
+        .stat-change.negative {
+            color: #ef4444;
+        }
+
+        /* Content Sections */
+        .content-section {
+            display: none;
+        }
+
+        .content-section.active {
+            display: block;
+        }
+
+        .card {
+            background: white;
+            padding: 30px;
+            border-radius: 20px;
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.08);
+            margin-bottom: 30px;
+        }
+
+        .card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+            padding-bottom: 20px;
+            border-bottom: 2px solid #f1f5f9;
+        }
+
+        .card-title {
+            font-size: 24px;
+            font-weight: 700;
+            color: #1e293b;
+            margin: 0;
+        }
+
+        .add-btn {
+            background: linear-gradient(135deg, #ec4899 0%, #3b82f6 100%);
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 12px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .add-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(236, 72, 153, 0.3);
+        }
+
+        /* Form Styles */
+        .form-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 24px;
+            margin-bottom: 24px;
+        }
+
+        .form-group {
+            margin-bottom: 0;
+        }
+
+        .select-input {
+            width: 100%;
+            padding: 16px 20px;
+            border: 2px solid #e2e8f0;
+            border-radius: 16px;
+            font-size: 15px;
+            font-family: 'Inter', sans-serif;
+            background: white;
+            transition: all 0.3s ease;
+        }
+
+        .select-input:focus {
+            outline: none;
+            border-color: #ec4899;
+            box-shadow: 0 0 0 4px rgba(236, 72, 153, 0.1);
+        }
+
+        .save-btn {
+            background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+            color: white;
+            border: none;
+            padding: 16px 32px;
+            border-radius: 16px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .save-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(16, 185, 129, 0.3);
+        }
+
+        .save-btn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        /* Notification */
+        .notification {
+            background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+            color: white;
+            padding: 16px 24px;
+            border-radius: 16px;
+            margin-bottom: 24px;
+            font-size: 15px;
+            font-weight: 600;
+            display: none;
+            box-shadow: 0 8px 25px rgba(16, 185, 129, 0.3);
+        }
+
+        /* Table Styles */
+        .table-container {
+            overflow-x: auto;
+            border-radius: 16px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+        }
+
+        .data-table {
+            width: 100%;
+            border-collapse: collapse;
+            background: white;
+        }
+
+        .data-table th {
+            background: linear-gradient(135deg, #ec4899 0%, #3b82f6 100%);
+            color: white;
+            padding: 20px 16px;
+            text-align: left;
+            font-weight: 700;
+            font-size: 14px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .data-table td {
+            padding: 20px 16px;
+            border-bottom: 1px solid #f1f5f9;
+            font-size: 14px;
+            font-weight: 500;
+        }
+
+        .data-table tr:hover {
+            background: #f8fafc;
+        }
+
+        .status-pending {
+            background: linear-gradient(135deg, #fef3c7 0%, #fde68a 100%);
+            color: #92400e;
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .status-approved {
+            background: linear-gradient(135deg, #d1fae5 0%, #a7f3d0 100%);
+            color: #065f46;
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .approve-btn {
+            background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 8px;
+            font-size: 12px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .approve-btn:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 4px 15px rgba(16, 185, 129, 0.3);
+        }
+
+
+
+        /* Modal Styles */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            backdrop-filter: blur(10px);
+            z-index: 2000;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .modal.active {
+            display: flex;
+        }
+
+        .modal-content {
+            background: white;
+            padding: 40px;
+            border-radius: 24px;
+            width: 90%;
+            max-width: 600px;
+            max-height: 90%;
+            overflow-y: auto;
+            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.25);
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+            padding-bottom: 20px;
+            border-bottom: 2px solid #f1f5f9;
+        }
+
+        .modal-title {
+            font-size: 24px;
+            font-weight: 700;
+            color: #1e293b;
+            margin: 0;
+        }
+
+        .close-btn {
+            background: #ef4444;
+            color: white;
+            border: none;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            font-size: 18px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .close-btn:hover {
+            background: #dc2626;
+            transform: scale(1.1);
+        }
+
+        /* Reports Styles */
+        .report-controls {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            flex-wrap: wrap;
+        }
+
+        .export-buttons {
+            display: flex;
+            gap: 12px;
+            margin-bottom: 30px;
+            flex-wrap: wrap;
+        }
+
+        .export-btn {
+            background: linear-gradient(135deg, #ec4899 0%, #3b82f6 100%);
+            color: white;
+            border: none;
+            padding: 12px 20px;
+            border-radius: 12px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            min-width: 120px;
+            justify-content: center;
+        }
+
+        .export-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(236, 72, 153, 0.3);
+        }
+
+        .pdf-btn {
+            background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);
+        }
+
+        .excel-btn {
+            background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+        }
+
+        .refresh-btn {
+            background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
+        }
+
+        .report-summary {
+            margin-bottom: 40px;
+        }
+
+        .summary-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .summary-card {
+            background: white;
+            padding: 24px;
+            border-radius: 16px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            border-left: 4px solid;
+        }
+
+        .summary-card.income-card {
+            border-left-color: #10b981;
+        }
+
+        .summary-card.expense-card {
+            border-left-color: #ef4444;
+        }
+
+        .summary-card.profit-card {
+            border-left-color: #ec4899;
+        }
+
+        .summary-card.count-card {
+            border-left-color: #f59e0b;
+        }
+
+        .summary-icon {
+            font-size: 32px;
+            width: 60px;
+            height: 60px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 12px;
+            background: rgba(236, 72, 153, 0.1);
+        }
+
+        .summary-content {
+            flex: 1;
+        }
+
+        .summary-label {
+            font-size: 14px;
+            color: #64748b;
+            font-weight: 600;
+            margin-bottom: 4px;
+        }
+
+        .summary-value {
+            font-size: 24px;
+            font-weight: 800;
+            color: #1e293b;
+        }
+
+        .report-table-container {
+            margin-bottom: 40px;
+        }
+
+        .report-section-title {
+            font-size: 20px;
+            font-weight: 700;
+            color: #1e293b;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .category-breakdown {
+            margin-top: 40px;
+        }
+
+        .breakdown-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+        }
+
+        .breakdown-card {
+            background: white;
+            padding: 24px;
+            border-radius: 16px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+            border-top: 4px solid;
+        }
+
+        .breakdown-card.studio {
+            border-top-color: #ec4899;
+        }
+
+        .breakdown-card.styrofoam {
+            border-top-color: #3b82f6;
+        }
+
+        .breakdown-card.lem {
+            border-top-color: #10b981;
+        }
+
+        .breakdown-header {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 16px;
+        }
+
+        .breakdown-icon {
+            font-size: 24px;
+        }
+
+        .breakdown-title {
+            font-size: 18px;
+            font-weight: 700;
+            color: #1e293b;
+        }
+
+        .breakdown-stats {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 12px;
+        }
+
+        .breakdown-stat {
+            text-align: center;
+            padding: 12px;
+            background: #f8fafc;
+            border-radius: 8px;
+        }
+
+        .breakdown-stat-value {
+            font-size: 18px;
+            font-weight: 700;
+            color: #1e293b;
+            display: block;
+        }
+
+        .breakdown-stat-label {
+            font-size: 12px;
+            color: #64748b;
+            font-weight: 500;
+        }
+
+        /* Mobile Sidebar Toggle */
+        .mobile-menu-btn {
+            display: none;
+            background: linear-gradient(135deg, #ec4899 0%, #3b82f6 100%);
+            color: white;
+            border: none;
+            padding: 12px;
+            border-radius: 12px;
+            font-size: 18px;
+            cursor: pointer;
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            z-index: 1001;
+            box-shadow: 0 4px 15px rgba(236, 72, 153, 0.3);
+        }
+
+        /* Responsive Design */
+        @media (max-width: 1024px) {
+            .mobile-menu-btn {
+                display: block;
+            }
+
+            .sidebar {
+                transform: translateX(-100%);
+                transition: transform 0.3s ease;
+            }
+
+            .sidebar.active {
+                transform: translateX(0);
+            }
+
+            .main-content {
+                margin-left: 0;
+                padding: 20px;
+            }
+
+            .category-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .stats-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .summary-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .breakdown-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .report-controls {
+                flex-direction: column;
+                align-items: stretch;
+            }
+
+            .export-buttons {
+                justify-content: center;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .main-content {
+                padding: 15px;
+                padding-top: 70px;
+            }
+
+            .top-bar {
+                flex-direction: column;
+                gap: 16px;
+                text-align: center;
+                padding: 16px 20px;
+            }
+
+            .user-menu {
+                flex-direction: column;
+                gap: 12px;
+            }
+
+            .stats-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .summary-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .form-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .data-table {
+                font-size: 11px;
+            }
+
+            .data-table th,
+            .data-table td {
+                padding: 8px 6px;
+            }
+
+            .modal-content {
+                padding: 20px;
+                margin: 15px;
+                max-height: 85%;
+            }
+
+            .export-buttons {
+                flex-direction: column;
+                gap: 8px;
+            }
+
+            .export-btn {
+                width: 100%;
+            }
+
+            .report-controls {
+                gap: 12px;
+            }
+
+            .card-header {
+                flex-direction: column;
+                gap: 16px;
+                align-items: stretch;
+            }
+
+            .breakdown-stats {
+                grid-template-columns: 1fr;
+            }
+
+            .category-card {
+                padding: 20px;
+            }
+
+            .category-stats {
+                flex-direction: column;
+                gap: 8px;
+            }
+
+            .stat-item {
+                text-align: left;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .login-card {
+                padding: 30px 25px;
+                margin: 15px;
+            }
+
+            .logo {
+                font-size: 24px;
+            }
+
+            .page-title {
+                font-size: 20px;
+            }
+
+            .card {
+                padding: 20px;
+            }
+
+            .sidebar {
+                width: 260px;
+            }
+
+            .summary-card {
+                padding: 16px;
+            }
+
+            .summary-icon {
+                width: 50px;
+                height: 50px;
+                font-size: 24px;
+            }
+
+            .summary-value {
+                font-size: 18px;
+            }
+
+            .data-table th,
+            .data-table td {
+                padding: 6px 4px;
+                font-size: 10px;
+            }
+        }
+    </style>
+  <style>@view-transition { navigation: auto; }</style>
+  <script src="/_sdk/data_sdk.js" type="text/javascript"></script>
+  <script src="https://cdn.tailwindcss.com" type="text/javascript"></script>
+ </head>
+ <body><!-- Login Page -->
+  <div id="loginPage" class="login-container">
+   <div class="login-card">
+    <div class="logo">
+     💼 KEUANGAN PRO
     </div>
-
-    <div id="content" class="text-white text-left p-4">
-      <p class="text-center text-lg italic opacity-80">Silakan pilih salah satu kategori di atas...</p>
+    <div class="company-title" id="companyName">
+     PT KYLIAN ART PRODUCTION
     </div>
+    <div class="error-message" id="errorMessage"></div>
+    <form id="loginForm">
+     <div class="form-group"><label class="form-label" for="username">Username</label> <input type="text" id="username" class="form-input" required>
+     </div>
+     <div class="form-group"><label class="form-label" for="password">Password</label> <input type="password" id="password" class="form-input" required>
+     </div><button type="submit" class="login-btn" id="loginBtn"> <span id="loginText">Login</span> <span id="loginLoading" class="loading" style="display: none;"></span> </button>
+     <div class="login-subtitle" id="loginSubtitle">
+      Username: admin/user | Password: admin123/user123
+     </div>
+    </form>
+   </div>
+  </div><!-- Dashboard Page -->
+  <div id="dashboardPage" class="dashboard"><!-- Sidebar -->
+   <div class="sidebar" id="sidebar">
+    <div class="sidebar-header">
+     <div class="sidebar-logo">
+      💼 KEUANGAN PRO
+     </div>
+     <div class="sidebar-company" id="sidebarCompany">
+      PT KYLIAN ART PRODUCTION
+     </div>
+    </div>
+    <ul class="nav-menu">
+     <li class="nav-item"><a href="#" class="nav-link active" onclick="showSection('dashboard')"> <span class="nav-icon">📊</span> Dashboard </a></li>
+     <li class="nav-item"><a href="#" class="nav-link" onclick="showSection('studio')"> <span class="nav-icon">🎬</span> Studio </a></li>
+     <li class="nav-item"><a href="#" class="nav-link" onclick="showSection('styrofoam')"> <span class="nav-icon">📦</span> Styrofoam </a></li>
+     <li class="nav-item"><a href="#" class="nav-link" onclick="showSection('lem')"> <span class="nav-icon">🧪</span> Lem Styrofoam </a></li>
+     <li class="nav-item"><a href="#" class="nav-link" onclick="showSection('reports')"> <span class="nav-icon">📋</span> Reports </a></li>
+    </ul>
+   </div><!-- Mobile Menu Button --> <button class="mobile-menu-btn" onclick="toggleSidebar()">☰</button> <!-- Main Content -->
+   <div class="main-content"><!-- Top Bar -->
+    <div class="top-bar">
+     <h1 class="page-title" id="pageTitle">Dashboard</h1>
+     <div class="user-menu">
+      <div class="user-info-badge" id="userInfoBadge"></div><button class="logout-btn" onclick="logout()">Logout</button>
+     </div>
+    </div><!-- Dashboard Section -->
+    <div id="dashboardSection" class="content-section active"><!-- Stats Grid -->
+     <div class="stats-grid">
+      <div class="stat-card income">
+       <div class="stat-header">
+        <div class="stat-title">
+         Total Pemasukan
+        </div>
+        <div class="stat-icon">
+         💰
+        </div>
+       </div>
+       <div class="stat-amount" id="totalIncome">
+        Rp 0
+       </div>
+       <div class="stat-change positive" id="incomeChange">
+        +0% dari bulan lalu
+       </div>
+      </div>
+      <div class="stat-card expense">
+       <div class="stat-header">
+        <div class="stat-title">
+         Total Pengeluaran
+        </div>
+        <div class="stat-icon">
+         💸
+        </div>
+       </div>
+       <div class="stat-amount" id="totalExpense">
+        Rp 0
+       </div>
+       <div class="stat-change negative" id="expenseChange">
+        +0% dari bulan lalu
+       </div>
+      </div>
+      <div class="stat-card profit">
+       <div class="stat-header">
+        <div class="stat-title">
+         Keuntungan Bersih
+        </div>
+        <div class="stat-icon">
+         📈
+        </div>
+       </div>
+       <div class="stat-amount" id="totalProfit">
+        Rp 0
+       </div>
+       <div class="stat-change positive" id="profitChange">
+        +0% dari bulan lalu
+       </div>
+      </div>
+      <div class="stat-card total">
+       <div class="stat-header">
+        <div class="stat-title">
+         Total Transaksi
+        </div>
+        <div class="stat-icon">
+         📊
+        </div>
+       </div>
+       <div class="stat-amount" id="totalTransactions">
+        0
+       </div>
+       <div class="stat-change positive" id="transactionChange">
+        +0 transaksi baru
+       </div>
+      </div>
+     </div><!-- Category Grid -->
+     <div class="category-grid">
+      <div class="category-card" onclick="showSection('studio')"><span class="category-icon">🎬</span>
+       <div class="category-title">
+        Studio
+       </div>
+       <div class="category-stats">
+        <div class="stat-item"><span class="stat-value" id="studioIncome">Rp 0</span> <span class="stat-label">Pemasukan</span>
+        </div>
+        <div class="stat-item"><span class="stat-value" id="studioExpense">Rp 0</span> <span class="stat-label">Pengeluaran</span>
+        </div>
+        <div class="stat-item"><span class="stat-value" id="studioCount">0</span> <span class="stat-label">Transaksi</span>
+        </div>
+       </div>
+       <div class="category-description">
+        Kelola semua transaksi terkait studio produksi, sewa peralatan, dan biaya operasional.
+       </div>
+      </div>
+      <div class="category-card" onclick="showSection('styrofoam')"><span class="category-icon">📦</span>
+       <div class="category-title">
+        Styrofoam
+       </div>
+       <div class="category-stats">
+        <div class="stat-item"><span class="stat-value" id="styrofoamIncome">Rp 0</span> <span class="stat-label">Pemasukan</span>
+        </div>
+        <div class="stat-item"><span class="stat-value" id="styrofoamExpense">Rp 0</span> <span class="stat-label">Pengeluaran</span>
+        </div>
+        <div class="stat-item"><span class="stat-value" id="styrofoamCount">0</span> <span class="stat-label">Transaksi</span>
+        </div>
+       </div>
+       <div class="category-description">
+        Pantau pembelian, penjualan, dan stok styrofoam untuk kebutuhan produksi.
+       </div>
+      </div>
+      <div class="category-card" onclick="showSection('lem')"><span class="category-icon">🧪</span>
+       <div class="category-title">
+        Lem Styrofoam
+       </div>
+       <div class="category-stats">
+        <div class="stat-item"><span class="stat-value" id="lemIncome">Rp 0</span> <span class="stat-label">Pemasukan</span>
+        </div>
+        <div class="stat-item"><span class="stat-value" id="lemExpense">Rp 0</span> <span class="stat-label">Pengeluaran</span>
+        </div>
+        <div class="stat-item"><span class="stat-value" id="lemCount">0</span> <span class="stat-label">Transaksi</span>
+        </div>
+       </div>
+       <div class="category-description">
+        Kelola pembelian lem styrofoam dan bahan perekat lainnya untuk produksi.
+       </div>
+      </div>
+     </div>
+    </div><!-- Studio Section -->
+    <div id="studioSection" class="content-section">
+     <div class="card">
+      <div class="card-header">
+       <h2 class="card-title">🎬 Transaksi Studio</h2><button class="add-btn" onclick="openModal('studioModal')"> <span>➕</span> Tambah Transaksi </button>
+      </div>
+      <div class="notification" id="studioNotification"></div>
+      <div class="table-container">
+       <table class="data-table">
+        <thead>
+         <tr>
+          <th>Tanggal</th>
+          <th>Kota</th>
+          <th>Pemasukan</th>
+          <th>Pengeluaran</th>
+          <th>Harga</th>
+          <th>Keterangan</th>
+          <th>Status</th>
+          <th>Aksi</th>
+         </tr>
+        </thead>
+        <tbody id="studioTableBody">
+        </tbody>
+       </table>
+      </div>
+     </div>
+    </div><!-- Styrofoam Section -->
+    <div id="styrofoamSection" class="content-section">
+     <div class="card">
+      <div class="card-header">
+       <h2 class="card-title">📦 Transaksi Styrofoam</h2><button class="add-btn" onclick="openModal('styrofoamModal')"> <span>➕</span> Tambah Transaksi </button>
+      </div>
+      <div class="notification" id="styrofoamNotification"></div>
+      <div class="table-container">
+       <table class="data-table">
+        <thead>
+         <tr>
+          <th>Tanggal</th>
+          <th>Kota</th>
+          <th>Pemasukan</th>
+          <th>Pengeluaran</th>
+          <th>Harga</th>
+          <th>Keterangan</th>
+          <th>Status</th>
+          <th>Aksi</th>
+         </tr>
+        </thead>
+        <tbody id="styrofoamTableBody">
+        </tbody>
+       </table>
+      </div>
+     </div>
+    </div><!-- Lem Section -->
+    <div id="lemSection" class="content-section">
+     <div class="card">
+      <div class="card-header">
+       <h2 class="card-title">🧪 Transaksi Lem Styrofoam</h2><button class="add-btn" onclick="openModal('lemModal')"> <span>➕</span> Tambah Transaksi </button>
+      </div>
+      <div class="notification" id="lemNotification"></div>
+      <div class="table-container">
+       <table class="data-table">
+        <thead>
+         <tr>
+          <th>Tanggal</th>
+          <th>Kota</th>
+          <th>Pemasukan</th>
+          <th>Pengeluaran</th>
+          <th>Harga</th>
+          <th>Keterangan</th>
+          <th>Status</th>
+          <th>Aksi</th>
+         </tr>
+        </thead>
+        <tbody id="lemTableBody">
+        </tbody>
+       </table>
+      </div>
+     </div>
+    </div><!-- Reports Section -->
+    <div id="reportsSection" class="content-section"><!-- Filter Controls -->
+     <div class="card">
+      <div class="card-header">
+       <h2 class="card-title">📋 Laporan Keuangan</h2>
+       <div class="report-controls"><select id="periodFilter" class="select-input" onchange="filterReports()"> <option value="all">Semua Periode</option> <option value="today">Hari Ini</option> <option value="week">Minggu Ini</option> <option value="month">Bulan Ini</option> <option value="year">Tahun Ini</option> <option value="custom">Periode Kustom</option> </select>
+        <div id="customDateRange" style="display: none; margin-left: 12px;"><input type="date" id="startDate" class="form-input" style="width: 150px; margin-right: 8px;"> <input type="date" id="endDate" class="form-input" style="width: 150px;">
+        </div>
+       </div>
+      </div><!-- Export Buttons -->
+      <div class="export-buttons"><button class="export-btn pdf-btn" onclick="exportToPDF()"> <span>📄</span> Export PDF </button> <button class="export-btn excel-btn" onclick="exportToExcel()"> <span>📊</span> Export Excel </button> <button class="export-btn refresh-btn" onclick="refreshReport()"> <span>🔄</span> Refresh </button>
+      </div><!-- Report Summary -->
+      <div id="reportSummary" class="report-summary">
+       <div class="summary-grid">
+        <div class="summary-card income-card">
+         <div class="summary-icon">
+          💰
+         </div>
+         <div class="summary-content">
+          <div class="summary-label">
+           Total Pemasukan
+          </div>
+          <div class="summary-value" id="reportIncome">
+           Rp 0
+          </div>
+         </div>
+        </div>
+        <div class="summary-card expense-card">
+         <div class="summary-icon">
+          💸
+         </div>
+         <div class="summary-content">
+          <div class="summary-label">
+           Total Pengeluaran
+          </div>
+          <div class="summary-value" id="reportExpense">
+           Rp 0
+          </div>
+         </div>
+        </div>
+        <div class="summary-card profit-card">
+         <div class="summary-icon">
+          📈
+         </div>
+         <div class="summary-content">
+          <div class="summary-label">
+           Keuntungan Bersih
+          </div>
+          <div class="summary-value" id="reportProfit">
+           Rp 0
+          </div>
+         </div>
+        </div>
+        <div class="summary-card count-card">
+         <div class="summary-icon">
+          📊
+         </div>
+         <div class="summary-content">
+          <div class="summary-label">
+           Total Transaksi
+          </div>
+          <div class="summary-value" id="reportCount">
+           0
+          </div>
+         </div>
+        </div>
+       </div>
+      </div><!-- Detailed Report Table -->
+      <div class="report-table-container">
+       <h3 class="report-section-title">📋 Detail Transaksi</h3>
+       <div class="table-container">
+        <table class="data-table" id="reportTable">
+         <thead>
+          <tr>
+           <th>Tanggal</th>
+           <th>Kategori</th>
+           <th>Kota</th>
+           <th>Pemasukan</th>
+           <th>Pengeluaran</th>
+           <th>Profit/Loss</th>
+           <th>Keterangan</th>
+           <th>Status</th>
+          </tr>
+         </thead>
+         <tbody id="reportTableBody">
+         </tbody>
+        </table>
+       </div>
+      </div><!-- Category Breakdown -->
+      <div class="category-breakdown">
+       <h3 class="report-section-title">📊 Breakdown per Kategori</h3>
+       <div class="breakdown-grid" id="categoryBreakdown">
+       </div>
+      </div>
+     </div>
+    </div>
+   </div>
+  </div><!-- Modals -->
+  <div id="studioModal" class="modal">
+   <div class="modal-content">
+    <div class="modal-header">
+     <h3 class="modal-title">🎬 Tambah Transaksi Studio</h3><button class="close-btn" onclick="closeModal('studioModal')">×</button>
+    </div>
+    <form id="studioForm">
+     <div class="form-grid">
+      <div class="form-group"><label class="form-label" for="studioTanggal">Tanggal</label> <input type="date" id="studioTanggal" class="form-input" required>
+      </div>
+      <div class="form-group"><label class="form-label" for="studioKota">Kota</label> <input type="text" id="studioKota" class="form-input" required>
+      </div>
+      <div class="form-group"><label class="form-label" for="studioPemasukan">Pemasukan (Rp)</label> <input type="number" id="studioPemasukan" class="form-input" min="0">
+      </div>
+      <div class="form-group"><label class="form-label" for="studioPengeluaran">Pengeluaran (Rp)</label> <input type="number" id="studioPengeluaran" class="form-input" min="0">
+      </div>
+      <div class="form-group"><label class="form-label" for="studioHarga">Harga (Rp)</label> <input type="number" id="studioHarga" class="form-input" min="0">
+      </div>
+     </div>
+     <div class="form-group"><label class="form-label" for="studioKeterangan">Keterangan</label> <input type="text" id="studioKeterangan" class="form-input" required>
+     </div><button type="submit" class="save-btn" id="studioSaveBtn"> 💾 <span id="studioSaveText">Simpan Transaksi</span> <span id="studioSaveLoading" class="loading" style="display: none;"></span> </button>
+    </form>
+   </div>
   </div>
-
+  <div id="styrofoamModal" class="modal">
+   <div class="modal-content">
+    <div class="modal-header">
+     <h3 class="modal-title">📦 Tambah Transaksi Styrofoam</h3><button class="close-btn" onclick="closeModal('styrofoamModal')">×</button>
+    </div>
+    <form id="styrofoamForm">
+     <div class="form-grid">
+      <div class="form-group"><label class="form-label" for="styrofoamTanggal">Tanggal</label> <input type="date" id="styrofoamTanggal" class="form-input" required>
+      </div>
+      <div class="form-group"><label class="form-label" for="styrofoamKota">Kota</label> <input type="text" id="styrofoamKota" class="form-input" required>
+      </div>
+      <div class="form-group"><label class="form-label" for="styrofoamPemasukan">Pemasukan (Rp)</label> <input type="number" id="styrofoamPemasukan" class="form-input" min="0">
+      </div>
+      <div class="form-group"><label class="form-label" for="styrofoamPengeluaran">Pengeluaran (Rp)</label> <input type="number" id="styrofoamPengeluaran" class="form-input" min="0">
+      </div>
+      <div class="form-group"><label class="form-label" for="styrofoamHarga">Harga (Rp)</label> <input type="number" id="styrofoamHarga" class="form-input" min="0">
+      </div>
+     </div>
+     <div class="form-group"><label class="form-label" for="styrofoamKeterangan">Keterangan</label> <input type="text" id="styrofoamKeterangan" class="form-input" required>
+     </div><button type="submit" class="save-btn" id="styrofoamSaveBtn"> 💾 <span id="styrofoamSaveText">Simpan Transaksi</span> <span id="styrofoamSaveLoading" class="loading" style="display: none;"></span> </button>
+    </form>
+   </div>
+  </div>
+  <div id="lemModal" class="modal">
+   <div class="modal-content">
+    <div class="modal-header">
+     <h3 class="modal-title">🧪 Tambah Transaksi Lem Styrofoam</h3><button class="close-btn" onclick="closeModal('lemModal')">×</button>
+    </div>
+    <form id="lemForm">
+     <div class="form-grid">
+      <div class="form-group"><label class="form-label" for="lemTanggal">Tanggal</label> <input type="date" id="lemTanggal" class="form-input" required>
+      </div>
+      <div class="form-group"><label class="form-label" for="lemKota">Kota</label> <input type="text" id="lemKota" class="form-input" required>
+      </div>
+      <div class="form-group"><label class="form-label" for="lemPemasukan">Pemasukan (Rp)</label> <input type="number" id="lemPemasukan" class="form-input" min="0">
+      </div>
+      <div class="form-group"><label class="form-label" for="lemPengeluaran">Pengeluaran (Rp)</label> <input type="number" id="lemPengeluaran" class="form-input" min="0">
+      </div>
+      <div class="form-group"><label class="form-label" for="lemHarga">Harga (Rp)</label> <input type="number" id="lemHarga" class="form-input" min="0">
+      </div>
+     </div>
+     <div class="form-group"><label class="form-label" for="lemKeterangan">Keterangan</label> <input type="text" id="lemKeterangan" class="form-input" required>
+     </div><button type="submit" class="save-btn" id="lemSaveBtn"> 💾 <span id="lemSaveText">Simpan Transaksi</span> <span id="lemSaveLoading" class="loading" style="display: none;"></span> </button>
+    </form>
+   </div>
+  </div>
   <script>
-    const tabs = {
-      studio: `
-        <h3 class="text-2xl font-bold mb-3">🏢 Pengerjaan Studio</h3>
-        <table class="w-full text-left text-sm">
-          <tr><td class="py-1">Tanggal</td><td><input type="date" class="w-full p-2 rounded-md text-black"></td></tr>
-          <tr><td class="py-1">Nama Kota</td><td><input type="text" placeholder="Contoh: Karawang" class="w-full p-2 rounded-md text-black"></td></tr>
-          <tr><td class="py-1">Pemasukan</td><td><input type="number" placeholder="Rp..." class="w-full p-2 rounded-md text-black"></td></tr>
-          <tr><td class="py-1">Pengeluaran</td><td><input type="number" placeholder="Rp..." class="w-full p-2 rounded-md text-black"></td></tr>
-          <tr><td class="py-1">Harga</td><td><input type="number" placeholder="Rp..." class="w-full p-2 rounded-md text-black"></td></tr>
-          <tr><td class="py-1">Keterangan</td><td><input type="text" placeholder="Catatan tambahan..." class="w-full p-2 rounded-md text-black"></td></tr>
-        </table>
-      `,
-      lem: `
-        <h3 class="text-2xl font-bold mb-3">🧴 Lem Styrofoam</h3>
-        <table class="w-full text-left text-sm">
-          <tr><td class="py-1">Kota Tujuan</td><td><input type="text" placeholder="Kota pengiriman" class="w-full p-2 rounded-md text-black"></td></tr>
-          <tr><td class="py-1">Pemasukan</td><td><input type="number" placeholder="Rp..." class="w-full p-2 rounded-md text-black"></td></tr>
-          <tr><td class="py-1">Pengeluaran</td><td><input type="number" placeholder="Rp..." class="w-full p-2 rounded-md text-black"></td></tr>
-          <tr><td class="py-1">Harga</td><td><input type="number" placeholder="Rp..." class="w-full p-2 rounded-md text-black"></td></tr>
-          <tr><td class="py-1">Keterangan</td><td><input type="text" placeholder="Contoh: bahan lem A" class="w-full p-2 rounded-md text-black"></td></tr>
-        </table>
-      `,
-      styrofoam: `
-        <h3 class="text-2xl font-bold mb-3">📦 Styrofoam</h3>
-        <table class="w-full text-left text-sm">
-          <tr><td class="py-1">Pemasukan</td><td><input type="number" placeholder="Rp..." class="w-full p-2 rounded-md text-black"></td></tr>
-          <tr><td class="py-1">Pengeluaran</td><td><input type="number" placeholder="Rp..." class="w-full p-2 rounded-md text-black"></td></tr>
-          <tr><td class="py-1">Harga</td><td><input type="number" placeholder="Rp..." class="w-full p-2 rounded-md text-black"></td></tr>
-          <tr><td class="py-1">Keterangan</td><td><input type="text" placeholder="Catatan tambahan..." class="w-full p-2 rounded-md text-black"></td></tr>
-        </table>
-      `
-    }
+        // 🔥 CONFIG FIREBASE KAMU - SUDAH TERHUBUNG!
+        const firebaseConfig = {
+            apiKey: "AIzaSyDIkJEIsciSM0iL4zPajwvLIlFmQCPS99o",
+            authDomain: "projekalfi-33139.firebaseapp.com",
+            databaseURL: "https://projekalfi-33139-default-rtdb.asia-southeast1.firebasedatabase.app",
+            projectId: "projekalfi-33139",
+            storageBucket: "projekalfi-33139.firebasestorage.app",
+            messagingSenderId: "860849567689",
+            appId: "1:860849567689:web:4ad622009f11f6cb189a18",
+            measurementId: "G-127665HZSY"
+        };
+        
+        // ✅ FIREBASE SUDAH TERKONFIGURASI!
+        // Data akan tersimpan permanen di Google Cloud
+        // Pastikan Firestore Database sudah diaktifkan di console
 
-    const btns = document.querySelectorAll('.tab-btn');
-    const content = document.getElementById('content');
+        // Initialize Firebase
+        let db;
+        let firebaseInitialized = false;
 
-    btns.forEach(btn => {
-      btn.addEventListener('click', () => {
-        btns.forEach(b => b.classList.remove('btn-active'));
-        btn.classList.add('btn-active');
+        try {
+            firebase.initializeApp(firebaseConfig);
+            db = firebase.firestore();
+            firebaseInitialized = true;
+            console.log('✅ Firebase berhasil terhubung!');
+        } catch (error) {
+            console.error('❌ Firebase gagal terhubung:', error);
+            firebaseInitialized = false;
+        }
 
-        if (btn.id === 'btn-studio') content.innerHTML = tabs.studio;
-        if (btn.id === 'btn-lem') content.innerHTML = tabs.lem;
-        if (btn.id === 'btn-styrofoam') content.innerHTML = tabs.styrofoam;
-      });
-    });
-  </script>
-</body>
+        // Configuration object for Element SDK
+        const defaultConfig = {
+            company_name: "PT KYLIAN ART PRODUCTION",
+            login_subtitle: "Username: admin/user | Password: admin123/user123"
+        };
+
+        // Hardcoded user accounts
+        const users = {
+            'admin': { 
+                password: 'admin123', 
+                role: 'admin', 
+                name: 'Administrator', 
+                uid: 'admin_uid_001' 
+            },
+            'user': { 
+                password: 'user123', 
+                role: 'user', 
+                name: 'User Biasa', 
+                uid: 'user_uid_001' 
+            }
+        };
+
+        let currentUser = null;
+        let currentSection = 'dashboard';
+        let allTransactions = [];
+
+        // Initialize Element SDK
+        if (window.elementSdk) {
+            window.elementSdk.init({
+                defaultConfig: defaultConfig,
+                onConfigChange: async (config) => {
+                    const companyName = config.company_name || defaultConfig.company_name;
+                    const loginSubtitle = config.login_subtitle || defaultConfig.login_subtitle;
+                    
+                    document.getElementById('companyName').textContent = companyName;
+                    document.getElementById('sidebarCompany').textContent = companyName;
+                    document.getElementById('loginSubtitle').textContent = loginSubtitle;
+                },
+                mapToCapabilities: (config) => ({
+                    recolorables: [],
+                    borderables: [],
+                    fontEditable: undefined,
+                    fontSizeable: undefined
+                }),
+                mapToEditPanelValues: (config) => new Map([
+                    ["company_name", config.company_name || defaultConfig.company_name],
+                    ["login_subtitle", config.login_subtitle || defaultConfig.login_subtitle]
+                ])
+            });
+        }
+
+        // Local storage fallback
+        let localTransactions = JSON.parse(localStorage.getItem('transactions') || '[]');
+
+        // Show error message
+        function showError(message) {
+            const errorDiv = document.getElementById('errorMessage');
+            errorDiv.textContent = message;
+            errorDiv.style.display = 'block';
+            setTimeout(() => {
+                errorDiv.style.display = 'none';
+            }, 5000);
+        }
+
+        // Show notification
+        function showNotification(message, elementId = 'notification') {
+            const notification = document.getElementById(elementId);
+            if (notification) {
+                notification.textContent = message;
+                notification.style.display = 'block';
+                setTimeout(() => {
+                    notification.style.display = 'none';
+                }, 3000);
+            }
+        }
+
+        // Login functionality
+        document.getElementById('loginForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const username = document.getElementById('username').value;
+            const password = document.getElementById('password').value;
+            const loginBtn = document.getElementById('loginBtn');
+            const loginText = document.getElementById('loginText');
+            const loginLoading = document.getElementById('loginLoading');
+            
+            // Show loading
+            loginBtn.disabled = true;
+            loginText.style.display = 'none';
+            loginLoading.style.display = 'inline-block';
+            
+            setTimeout(() => {
+                if (users[username] && users[username].password === password) {
+                    currentUser = {
+                        uid: users[username].uid,
+                        username: username,
+                        role: users[username].role,
+                        name: users[username].name
+                    };
+                    
+                    showDashboard();
+                } else {
+                    showError('Username atau password salah!\nGunakan: admin/admin123 atau user/user123');
+                }
+                
+                // Hide loading
+                loginBtn.disabled = false;
+                loginText.style.display = 'inline';
+                loginLoading.style.display = 'none';
+            }, 1000);
+        });
+
+        // Show dashboard
+        function showDashboard() {
+            document.getElementById('loginPage').style.display = 'none';
+            document.getElementById('dashboardPage').classList.add('active');
+            
+            updateUserInfo();
+            loadAllTransactions();
+        }
+
+        // Update user info
+        function updateUserInfo() {
+            const userInfoBadge = document.getElementById('userInfoBadge');
+            userInfoBadge.textContent = `${currentUser.name} (${currentUser.role.toUpperCase()})`;
+        }
+
+        // Show section
+        function showSection(section) {
+            // Update navigation
+            document.querySelectorAll('.nav-link').forEach(link => {
+                link.classList.remove('active');
+            });
+            event.target.closest('.nav-link').classList.add('active');
+            
+            // Update content
+            document.querySelectorAll('.content-section').forEach(sec => {
+                sec.classList.remove('active');
+            });
+            
+            const sectionElement = document.getElementById(section + 'Section');
+            if (sectionElement) {
+                sectionElement.classList.add('active');
+            }
+            
+            // Update page title
+            const titles = {
+                'dashboard': 'Dashboard',
+                'studio': '🎬 Studio',
+                'styrofoam': '📦 Styrofoam',
+                'lem': '🧪 Lem Styrofoam',
+                'reports': '📋 Reports'
+            };
+            
+            document.getElementById('pageTitle').textContent = titles[section] || 'Dashboard';
+            currentSection = section;
+            
+            // Load section-specific data
+            if (section !== 'dashboard') {
+                loadSectionTransactions(section);
+            }
+            
+            // Auto-generate report when entering reports section
+            if (section === 'reports') {
+                generateReport();
+            }
+            
+
+        }
+
+        // Modal functions
+        function openModal(modalId) {
+            document.getElementById(modalId).classList.add('active');
+            
+            // Set today's date
+            const category = modalId.replace('Modal', '');
+            const dateInput = document.getElementById(category + 'Tanggal');
+            if (dateInput) {
+                dateInput.value = new Date().toISOString().split('T')[0];
+            }
+        }
+
+        function closeModal(modalId) {
+            document.getElementById(modalId).classList.remove('active');
+            
+            // Reset form
+            const category = modalId.replace('Modal', '');
+            const form = document.getElementById(category + 'Form');
+            if (form) {
+                form.reset();
+            }
+        }
+
+        // Transaction form handlers
+        ['studio', 'styrofoam', 'lem'].forEach(category => {
+            document.getElementById(category + 'Form').addEventListener('submit', async function(e) {
+                e.preventDefault();
+                await saveTransaction(category);
+            });
+        });
+
+        // Save transaction
+        async function saveTransaction(category) {
+            const saveBtn = document.getElementById(category + 'SaveBtn');
+            const saveText = document.getElementById(category + 'SaveText');
+            const saveLoading = document.getElementById(category + 'SaveLoading');
+            
+            // Show loading
+            saveBtn.disabled = true;
+            saveText.style.display = 'none';
+            saveLoading.style.display = 'inline-block';
+            
+            try {
+                const transaction = {
+                    id: Date.now().toString(),
+                    kategori: category === 'lem' ? 'Lem Styrofoam' : category.charAt(0).toUpperCase() + category.slice(1),
+                    tanggal: document.getElementById(category + 'Tanggal').value,
+                    kota: document.getElementById(category + 'Kota').value,
+                    pemasukan: parseInt(document.getElementById(category + 'Pemasukan').value) || 0,
+                    pengeluaran: parseInt(document.getElementById(category + 'Pengeluaran').value) || 0,
+                    harga: parseInt(document.getElementById(category + 'Harga').value) || 0,
+                    keterangan: document.getElementById(category + 'Keterangan').value,
+                    status: 'Menunggu Konfirmasi',
+                    createdBy: currentUser.uid,
+                    createdByUsername: currentUser.username,
+                    createdAt: new Date().toISOString()
+                };
+                
+                if (firebaseInitialized) {
+                    try {
+                        await db.collection('transactions').add(transaction);
+                        showNotification('✅ Transaksi berhasil disimpan ke Firebase Cloud!', category + 'Notification');
+                    } catch (firebaseError) {
+                        console.error('Firebase error, using local storage:', firebaseError);
+                        localTransactions.push(transaction);
+                        localStorage.setItem('transactions', JSON.stringify(localTransactions));
+                        showNotification('⚠️ Disimpan lokal (Firebase tidak tersedia)', category + 'Notification');
+                    }
+                } else {
+                    localTransactions.push(transaction);
+                    localStorage.setItem('transactions', JSON.stringify(localTransactions));
+                    showNotification('💾 Transaksi disimpan lokal', category + 'Notification');
+                }
+                
+                // Close modal and reload data
+                closeModal(category + 'Modal');
+                loadAllTransactions();
+                loadSectionTransactions(category);
+                
+            } catch (error) {
+                console.error('Error saving transaction:', error);
+                showNotification('❌ Gagal menyimpan transaksi', category + 'Notification');
+            } finally {
+                // Hide loading
+                saveBtn.disabled = false;
+                saveText.style.display = 'inline';
+                saveLoading.style.display = 'none';
+            }
+        }
+
+        // Load all transactions
+        async function loadAllTransactions() {
+            allTransactions = [];
+            
+            if (firebaseInitialized) {
+                try {
+                    let query = db.collection('transactions').orderBy('createdAt', 'desc');
+                    
+                    if (currentUser.role === 'user') {
+                        query = query.where('createdBy', '==', currentUser.uid);
+                    }
+                    
+                    const snapshot = await query.get();
+                    
+                    snapshot.forEach(doc => {
+                        const transaction = doc.data();
+                        transaction.docId = doc.id;
+                        allTransactions.push(transaction);
+                    });
+                    
+                } catch (firebaseError) {
+                    console.error('Firebase load error, using local storage:', firebaseError);
+                    allTransactions = localTransactions.filter(t => 
+                        currentUser.role === 'admin' || t.createdBy === currentUser.uid
+                    );
+                }
+            } else {
+                allTransactions = localTransactions.filter(t => 
+                    currentUser.role === 'admin' || t.createdBy === currentUser.uid
+                );
+            }
+            
+            updateDashboardStats();
+        }
+
+        // Load section transactions
+        function loadSectionTransactions(category) {
+            const categoryName = category === 'lem' ? 'Lem Styrofoam' : category.charAt(0).toUpperCase() + category.slice(1);
+            const transactions = allTransactions.filter(t => t.kategori === categoryName);
+            
+            const tbody = document.getElementById(category + 'TableBody');
+            tbody.innerHTML = '';
+            
+            transactions.forEach(transaction => {
+                const row = document.createElement('tr');
+                
+                const statusClass = transaction.status === 'Disetujui ✅' ? 'status-approved' : 'status-pending';
+                const actionButton = currentUser.role === 'admin' && transaction.status === 'Menunggu Konfirmasi' 
+                    ? `<button class="approve-btn" onclick="approveTransaction('${transaction.docId || transaction.id}', ${!firebaseInitialized})">✅ Approve</button>`
+                    : '-';
+                
+                const tanggal = transaction.tanggal ? new Date(transaction.tanggal).toLocaleDateString('id-ID') : '-';
+                
+                row.innerHTML = `
+                    <td>${tanggal}</td>
+                    <td>${transaction.kota || '-'}</td>
+                    <td>Rp ${(transaction.pemasukan || 0).toLocaleString('id-ID')}</td>
+                    <td>Rp ${(transaction.pengeluaran || 0).toLocaleString('id-ID')}</td>
+                    <td>Rp ${(transaction.harga || 0).toLocaleString('id-ID')}</td>
+                    <td>${transaction.keterangan || '-'}</td>
+                    <td><span class="${statusClass}">${transaction.status || 'Menunggu Konfirmasi'}</span></td>
+                    <td>${actionButton}</td>
+                `;
+                
+                tbody.appendChild(row);
+            });
+            
+            if (transactions.length === 0) {
+                const row = document.createElement('tr');
+                row.innerHTML = '<td colspan="8" style="text-align: center; color: #64748b; padding: 20px;">Belum ada data transaksi</td>';
+                tbody.appendChild(row);
+            }
+        }
+
+        // Update dashboard stats
+        function updateDashboardStats() {
+            const totalIncome = allTransactions.reduce((sum, t) => sum + (t.pemasukan || 0), 0);
+            const totalExpense = allTransactions.reduce((sum, t) => sum + (t.pengeluaran || 0), 0);
+            const totalProfit = totalIncome - totalExpense;
+            const totalCount = allTransactions.length;
+            
+            document.getElementById('totalIncome').textContent = `Rp ${totalIncome.toLocaleString('id-ID')}`;
+            document.getElementById('totalExpense').textContent = `Rp ${totalExpense.toLocaleString('id-ID')}`;
+            document.getElementById('totalProfit').textContent = `Rp ${totalProfit.toLocaleString('id-ID')}`;
+            document.getElementById('totalTransactions').textContent = totalCount;
+            
+            // Update category stats
+            ['studio', 'styrofoam', 'lem'].forEach(category => {
+                const categoryName = category === 'lem' ? 'Lem Styrofoam' : category.charAt(0).toUpperCase() + category.slice(1);
+                const categoryTransactions = allTransactions.filter(t => t.kategori === categoryName);
+                
+                const income = categoryTransactions.reduce((sum, t) => sum + (t.pemasukan || 0), 0);
+                const expense = categoryTransactions.reduce((sum, t) => sum + (t.pengeluaran || 0), 0);
+                const count = categoryTransactions.length;
+                
+                document.getElementById(category + 'Income').textContent = `Rp ${income.toLocaleString('id-ID')}`;
+                document.getElementById(category + 'Expense').textContent = `Rp ${expense.toLocaleString('id-ID')}`;
+                document.getElementById(category + 'Count').textContent = count;
+            });
+        }
+
+        // Approve transaction
+        async function approveTransaction(transactionId, isLocal = false) {
+            try {
+                if (isLocal || !firebaseInitialized) {
+                    const index = localTransactions.findIndex(t => t.id === transactionId);
+                    if (index !== -1) {
+                        localTransactions[index].status = 'Disetujui ✅';
+                        localTransactions[index].approvedBy = currentUser.uid;
+                        localTransactions[index].approvedAt = new Date().toISOString();
+                        localStorage.setItem('transactions', JSON.stringify(localTransactions));
+                        showNotification('✅ Transaksi berhasil disetujui');
+                    }
+                } else {
+                    await db.collection('transactions').doc(transactionId).update({
+                        status: 'Disetujui ✅',
+                        approvedBy: currentUser.uid,
+                        approvedAt: firebase.firestore.FieldValue.serverTimestamp()
+                    });
+                    showNotification('✅ Transaksi berhasil disetujui');
+                }
+                
+                loadAllTransactions();
+                if (currentSection !== 'dashboard') {
+                    loadSectionTransactions(currentSection);
+                }
+                
+            } catch (error) {
+                console.error('Error approving transaction:', error);
+                showNotification('❌ Gagal menyetujui transaksi');
+            }
+        }
+
+
+
+        // Mobile sidebar toggle
+        function toggleSidebar() {
+            const sidebar = document.getElementById('sidebar');
+            sidebar.classList.toggle('active');
+        }
+
+        // Filter reports by period
+        function filterReports() {
+            const period = document.getElementById('periodFilter').value;
+            const customRange = document.getElementById('customDateRange');
+            
+            if (period === 'custom') {
+                customRange.style.display = 'flex';
+                customRange.style.alignItems = 'center';
+            } else {
+                customRange.style.display = 'none';
+            }
+            
+            generateReport();
+        }
+
+        // Get filtered transactions based on period
+        function getFilteredTransactions() {
+            const period = document.getElementById('periodFilter').value;
+            const now = new Date();
+            let filteredTransactions = [...allTransactions];
+            
+            switch (period) {
+                case 'today':
+                    const today = now.toISOString().split('T')[0];
+                    filteredTransactions = allTransactions.filter(t => t.tanggal === today);
+                    break;
+                    
+                case 'week':
+                    const weekStart = new Date(now);
+                    weekStart.setDate(now.getDate() - now.getDay());
+                    weekStart.setHours(0, 0, 0, 0);
+                    filteredTransactions = allTransactions.filter(t => {
+                        const transactionDate = new Date(t.tanggal);
+                        return transactionDate >= weekStart;
+                    });
+                    break;
+                    
+                case 'month':
+                    const monthStart = new Date(now.getFullYear(), now.getMonth(), 1);
+                    filteredTransactions = allTransactions.filter(t => {
+                        const transactionDate = new Date(t.tanggal);
+                        return transactionDate >= monthStart;
+                    });
+                    break;
+                    
+                case 'year':
+                    const yearStart = new Date(now.getFullYear(), 0, 1);
+                    filteredTransactions = allTransactions.filter(t => {
+                        const transactionDate = new Date(t.tanggal);
+                        return transactionDate >= yearStart;
+                    });
+                    break;
+                    
+                case 'custom':
+                    const startDate = document.getElementById('startDate').value;
+                    const endDate = document.getElementById('endDate').value;
+                    if (startDate && endDate) {
+                        filteredTransactions = allTransactions.filter(t => {
+                            return t.tanggal >= startDate && t.tanggal <= endDate;
+                        });
+                    }
+                    break;
+                    
+                default: // 'all'
+                    filteredTransactions = allTransactions;
+            }
+            
+            return filteredTransactions;
+        }
+
+        // Generate comprehensive report
+        function generateReport() {
+            const filteredTransactions = getFilteredTransactions();
+            
+            // Update summary cards
+            const totalIncome = filteredTransactions.reduce((sum, t) => sum + (t.pemasukan || 0), 0);
+            const totalExpense = filteredTransactions.reduce((sum, t) => sum + (t.pengeluaran || 0), 0);
+            const totalProfit = totalIncome - totalExpense;
+            const totalCount = filteredTransactions.length;
+            
+            document.getElementById('reportIncome').textContent = `Rp ${totalIncome.toLocaleString('id-ID')}`;
+            document.getElementById('reportExpense').textContent = `Rp ${totalExpense.toLocaleString('id-ID')}`;
+            document.getElementById('reportProfit').textContent = `Rp ${totalProfit.toLocaleString('id-ID')}`;
+            document.getElementById('reportCount').textContent = totalCount;
+            
+            // Update profit color
+            const profitElement = document.getElementById('reportProfit');
+            profitElement.style.color = totalProfit >= 0 ? '#10b981' : '#ef4444';
+            
+            // Generate detailed table
+            const tbody = document.getElementById('reportTableBody');
+            tbody.innerHTML = '';
+            
+            if (filteredTransactions.length === 0) {
+                const row = document.createElement('tr');
+                row.innerHTML = '<td colspan="8" style="text-align: center; color: #64748b; padding: 20px;">Tidak ada data untuk periode yang dipilih</td>';
+                tbody.appendChild(row);
+            } else {
+                filteredTransactions.forEach(transaction => {
+                    const row = document.createElement('tr');
+                    const profit = (transaction.pemasukan || 0) - (transaction.pengeluaran || 0);
+                    const profitColor = profit >= 0 ? '#10b981' : '#ef4444';
+                    const statusClass = transaction.status === 'Disetujui ✅' ? 'status-approved' : 'status-pending';
+                    
+                    const tanggal = transaction.tanggal ? new Date(transaction.tanggal).toLocaleDateString('id-ID') : '-';
+                    
+                    row.innerHTML = `
+                        <td>${tanggal}</td>
+                        <td>${transaction.kategori || '-'}</td>
+                        <td>${transaction.kota || '-'}</td>
+                        <td style="color: #10b981; font-weight: 600;">Rp ${(transaction.pemasukan || 0).toLocaleString('id-ID')}</td>
+                        <td style="color: #ef4444; font-weight: 600;">Rp ${(transaction.pengeluaran || 0).toLocaleString('id-ID')}</td>
+                        <td style="color: ${profitColor}; font-weight: 600;">Rp ${profit.toLocaleString('id-ID')}</td>
+                        <td>${transaction.keterangan || '-'}</td>
+                        <td><span class="${statusClass}">${transaction.status || 'Menunggu Konfirmasi'}</span></td>
+                    `;
+                    
+                    tbody.appendChild(row);
+                });
+            }
+            
+            // Generate category breakdown
+            generateCategoryBreakdown(filteredTransactions);
+        }
+
+        // Generate category breakdown
+        function generateCategoryBreakdown(transactions) {
+            const breakdownContainer = document.getElementById('categoryBreakdown');
+            breakdownContainer.innerHTML = '';
+            
+            const categories = [
+                { name: 'Studio', icon: '🎬', class: 'studio' },
+                { name: 'Styrofoam', icon: '📦', class: 'styrofoam' },
+                { name: 'Lem Styrofoam', icon: '🧪', class: 'lem' }
+            ];
+            
+            categories.forEach(category => {
+                const categoryTransactions = transactions.filter(t => t.kategori === category.name);
+                const income = categoryTransactions.reduce((sum, t) => sum + (t.pemasukan || 0), 0);
+                const expense = categoryTransactions.reduce((sum, t) => sum + (t.pengeluaran || 0), 0);
+                const profit = income - expense;
+                const count = categoryTransactions.length;
+                
+                const card = document.createElement('div');
+                card.className = `breakdown-card ${category.class}`;
+                
+                card.innerHTML = `
+                    <div class="breakdown-header">
+                        <div class="breakdown-icon">${category.icon}</div>
+                        <div class="breakdown-title">${category.name}</div>
+                    </div>
+                    <div class="breakdown-stats">
+                        <div class="breakdown-stat">
+                            <span class="breakdown-stat-value" style="color: #10b981;">Rp ${income.toLocaleString('id-ID')}</span>
+                            <span class="breakdown-stat-label">Pemasukan</span>
+                        </div>
+                        <div class="breakdown-stat">
+                            <span class="breakdown-stat-value" style="color: #ef4444;">Rp ${expense.toLocaleString('id-ID')}</span>
+                            <span class="breakdown-stat-label">Pengeluaran</span>
+                        </div>
+                        <div class="breakdown-stat">
+                            <span class="breakdown-stat-value" style="color: ${profit >= 0 ? '#10b981' : '#ef4444'};">Rp ${profit.toLocaleString('id-ID')}</span>
+                            <span class="breakdown-stat-label">Profit/Loss</span>
+                        </div>
+                        <div class="breakdown-stat">
+                            <span class="breakdown-stat-value">${count}</span>
+                            <span class="breakdown-stat-label">Transaksi</span>
+                        </div>
+                    </div>
+                `;
+                
+                breakdownContainer.appendChild(card);
+            });
+        }
+
+        // Refresh report
+        function refreshReport() {
+            loadAllTransactions().then(() => {
+                generateReport();
+                showNotification('📊 Laporan berhasil diperbarui!');
+            });
+        }
+
+        // Export to PDF (Demo)
+        function exportToPDF() {
+            const filteredTransactions = getFilteredTransactions();
+            const period = document.getElementById('periodFilter').value;
+            
+            // Create a simple text-based report for demo
+            let reportText = `LAPORAN KEUANGAN PT KYLIAN ART PRODUCTION\n`;
+            reportText += `Periode: ${getPeriodLabel(period)}\n`;
+            reportText += `Tanggal Export: ${new Date().toLocaleDateString('id-ID')}\n\n`;
+            
+            const totalIncome = filteredTransactions.reduce((sum, t) => sum + (t.pemasukan || 0), 0);
+            const totalExpense = filteredTransactions.reduce((sum, t) => sum + (t.pengeluaran || 0), 0);
+            const totalProfit = totalIncome - totalExpense;
+            
+            reportText += `RINGKASAN:\n`;
+            reportText += `Total Pemasukan: Rp ${totalIncome.toLocaleString('id-ID')}\n`;
+            reportText += `Total Pengeluaran: Rp ${totalExpense.toLocaleString('id-ID')}\n`;
+            reportText += `Keuntungan Bersih: Rp ${totalProfit.toLocaleString('id-ID')}\n`;
+            reportText += `Total Transaksi: ${filteredTransactions.length}\n\n`;
+            
+            reportText += `DETAIL TRANSAKSI:\n`;
+            filteredTransactions.forEach((t, index) => {
+                const profit = (t.pemasukan || 0) - (t.pengeluaran || 0);
+                reportText += `${index + 1}. ${t.tanggal} - ${t.kategori} - ${t.kota}\n`;
+                reportText += `   Pemasukan: Rp ${(t.pemasukan || 0).toLocaleString('id-ID')}\n`;
+                reportText += `   Pengeluaran: Rp ${(t.pengeluaran || 0).toLocaleString('id-ID')}\n`;
+                reportText += `   Profit: Rp ${profit.toLocaleString('id-ID')}\n`;
+                reportText += `   Keterangan: ${t.keterangan}\n\n`;
+            });
+            
+            // Create and download file
+            const blob = new Blob([reportText], { type: 'text/plain' });
+            const url = window.URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `Laporan_Keuangan_${new Date().toISOString().split('T')[0]}.txt`;
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            window.URL.revokeObjectURL(url);
+            
+            showNotification('📄 Laporan PDF berhasil diunduh!');
+        }
+
+        // Export to Excel (Demo - CSV format)
+        function exportToExcel() {
+            const filteredTransactions = getFilteredTransactions();
+            
+            let csvContent = "Tanggal,Kategori,Kota,Pemasukan,Pengeluaran,Profit,Keterangan,Status\n";
+            
+            filteredTransactions.forEach(t => {
+                const profit = (t.pemasukan || 0) - (t.pengeluaran || 0);
+                const row = [
+                    t.tanggal || '',
+                    t.kategori || '',
+                    t.kota || '',
+                    t.pemasukan || 0,
+                    t.pengeluaran || 0,
+                    profit,
+                    `"${(t.keterangan || '').replace(/"/g, '""')}"`,
+                    t.status || ''
+                ].join(',');
+                csvContent += row + "\n";
+            });
+            
+            // Create and download file
+            const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+            const url = window.URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `Laporan_Keuangan_${new Date().toISOString().split('T')[0]}.csv`;
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            window.URL.revokeObjectURL(url);
+            
+            showNotification('📊 Laporan Excel berhasil diunduh!');
+        }
+
+        // Get period label
+        function getPeriodLabel(period) {
+            const labels = {
+                'all': 'Semua Periode',
+                'today': 'Hari Ini',
+                'week': 'Minggu Ini',
+                'month': 'Bulan Ini',
+                'year': 'Tahun Ini',
+                'custom': 'Periode Kustom'
+            };
+            return labels[period] || 'Semua Periode';
+        }
+
+        // Logout
+        function logout() {
+            currentUser = null;
+            allTransactions = [];
+            document.getElementById('loginPage').style.display = 'flex';
+            document.getElementById('dashboardPage').classList.remove('active');
+            document.getElementById('loginForm').reset();
+            
+            // Reset to dashboard
+            showSection('dashboard');
+        }
+
+        // Initialize
+        window.addEventListener('load', function() {
+            // Set today's date for all date inputs
+            const today = new Date().toISOString().split('T')[0];
+            document.querySelectorAll('input[type="date"]').forEach(input => {
+                input.value = today;
+            });
+            
+            // Add event listeners for custom date range
+            document.getElementById('startDate').addEventListener('change', generateReport);
+            document.getElementById('endDate').addEventListener('change', generateReport);
+        });
+
+        // Close modal when clicking outside
+        window.addEventListener('click', function(e) {
+            if (e.target.classList.contains('modal')) {
+                e.target.classList.remove('active');
+            }
+        });
+    </script>
+ <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9969dbbd3035df78',t:'MTc2MTgxNjI1My4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
 </html>
