@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Manajemen Proyek Studio</title>
+
+  <!-- Tailwind CSS -->
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <!-- Font & Icon -->
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+  <style>
+    body {
+      font-family: 'Poppins', sans-serif;
+      background: linear-gradient(135deg, #ffb6d9, #90caf9);
+      min-height: 100vh;
+    }
+    .glass {
+      background: rgba(255, 255, 255, 0.2);
+      backdrop-filter: blur(16px);
+      border: 1px solid rgba(255, 255, 255, 0.3);
+    }
+    .btn-active {
+      background: linear-gradient(135deg, #ec4899, #3b82f6);
+      color: white !important;
+      box-shadow: 0 0 15px rgba(236, 72, 153, 0.4);
+    }
+  </style>
+</head>
+
+<body class="flex flex-col items-center justify-center p-6">
+
+  <h1 class="text-4xl font-bold text-white drop-shadow-lg mb-10">💼 Manajemen Pengerjaan</h1>
+
+  <div class="glass rounded-3xl p-6 w-full max-w-2xl text-center shadow-xl">
+    <h2 class="text-2xl font-semibold text-white mb-4">Pilih Jenis Pengerjaan</h2>
+
+    <div class="flex justify-center gap-3 mb-8">
+      <button id="btn-studio" class="tab-btn px-5 py-2 rounded-full font-semibold text-pink-700 hover:scale-105 transition">Studio</button>
+      <button id="btn-lem" class="tab-btn px-5 py-2 rounded-full font-semibold text-pink-700 hover:scale-105 transition">Lem Styrofoam</button>
+      <button id="btn-styrofoam" class="tab-btn px-5 py-2 rounded-full font-semibold text-pink-700 hover:scale-105 transition">Styrofoam</button>
+    </div>
+
+    <div id="content" class="text-white text-left p-4">
+      <p class="text-center text-lg italic opacity-80">Silakan pilih salah satu kategori di atas...</p>
+    </div>
+  </div>
+
+  <script>
+    const tabs = {
+      studio: `
+        <h3 class="text-2xl font-bold mb-3">🏢 Pengerjaan Studio</h3>
+        <table class="w-full text-left text-sm">
+          <tr><td class="py-1">Tanggal</td><td><input type="date" class="w-full p-2 rounded-md text-black"></td></tr>
+          <tr><td class="py-1">Nama Kota</td><td><input type="text" placeholder="Contoh: Karawang" class="w-full p-2 rounded-md text-black"></td></tr>
+          <tr><td class="py-1">Pemasukan</td><td><input type="number" placeholder="Rp..." class="w-full p-2 rounded-md text-black"></td></tr>
+          <tr><td class="py-1">Pengeluaran</td><td><input type="number" placeholder="Rp..." class="w-full p-2 rounded-md text-black"></td></tr>
+          <tr><td class="py-1">Harga</td><td><input type="number" placeholder="Rp..." class="w-full p-2 rounded-md text-black"></td></tr>
+          <tr><td class="py-1">Keterangan</td><td><input type="text" placeholder="Catatan tambahan..." class="w-full p-2 rounded-md text-black"></td></tr>
+        </table>
+      `,
+      lem: `
+        <h3 class="text-2xl font-bold mb-3">🧴 Lem Styrofoam</h3>
+        <table class="w-full text-left text-sm">
+          <tr><td class="py-1">Kota Tujuan</td><td><input type="text" placeholder="Kota pengiriman" class="w-full p-2 rounded-md text-black"></td></tr>
+          <tr><td class="py-1">Pemasukan</td><td><input type="number" placeholder="Rp..." class="w-full p-2 rounded-md text-black"></td></tr>
+          <tr><td class="py-1">Pengeluaran</td><td><input type="number" placeholder="Rp..." class="w-full p-2 rounded-md text-black"></td></tr>
+          <tr><td class="py-1">Harga</td><td><input type="number" placeholder="Rp..." class="w-full p-2 rounded-md text-black"></td></tr>
+          <tr><td class="py-1">Keterangan</td><td><input type="text" placeholder="Contoh: bahan lem A" class="w-full p-2 rounded-md text-black"></td></tr>
+        </table>
+      `,
+      styrofoam: `
+        <h3 class="text-2xl font-bold mb-3">📦 Styrofoam</h3>
+        <table class="w-full text-left text-sm">
+          <tr><td class="py-1">Pemasukan</td><td><input type="number" placeholder="Rp..." class="w-full p-2 rounded-md text-black"></td></tr>
+          <tr><td class="py-1">Pengeluaran</td><td><input type="number" placeholder="Rp..." class="w-full p-2 rounded-md text-black"></td></tr>
+          <tr><td class="py-1">Harga</td><td><input type="number" placeholder="Rp..." class="w-full p-2 rounded-md text-black"></td></tr>
+          <tr><td class="py-1">Keterangan</td><td><input type="text" placeholder="Catatan tambahan..." class="w-full p-2 rounded-md text-black"></td></tr>
+        </table>
+      `
+    }
+
+    const btns = document.querySelectorAll('.tab-btn');
+    const content = document.getElementById('content');
+
+    btns.forEach(btn => {
+      btn.addEventListener('click', () => {
+        btns.forEach(b => b.classList.remove('btn-active'));
+        btn.classList.add('btn-active');
+
+        if (btn.id === 'btn-studio') content.innerHTML = tabs.studio;
+        if (btn.id === 'btn-lem') content.innerHTML = tabs.lem;
+        if (btn.id === 'btn-styrofoam') content.innerHTML = tabs.styrofoam;
+      });
+    });
+  </script>
+</body>
+</html>
